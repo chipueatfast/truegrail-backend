@@ -1,11 +1,16 @@
-import sequelize from './model';
-const express = require('express');
-const app = express();
+import Express from 'express';
+import sequelize from '~/sequelize/models';
+import { UserRoute } from '~/route';
+import bodyParser from 'body-parser';
+
+const app = Express();
 const port = 2190;
 
-app.get('/', (req, res) => {
-    res.send('Hello world again')
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// route
+app.use('/user', UserRoute);
 
 sequelize
     .authenticate()

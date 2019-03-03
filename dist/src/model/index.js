@@ -1,11 +1,6 @@
-'use strict';
+const Sequelize = require('sequelize');
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var Sequelize = require('sequelize');
-
-var sequelize = new Sequelize('truegrail', 'root', '', {
+const sequelize = new Sequelize('truegrail', 'root', '', {
     host: 'localhost',
     dialect: 'mysql',
     operatorsAliases: false,
@@ -18,4 +13,4 @@ var sequelize = new Sequelize('truegrail', 'root', '', {
     }
 });
 
-exports.default = sequelize;
+export default sequelize;
