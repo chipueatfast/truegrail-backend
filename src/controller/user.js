@@ -3,8 +3,7 @@ import db from '~/sequelize/models';
 const register = (req, res) => {
     console.log(req.body);
     db.User.create(req.body)
-        .then((data) => {
-            console.log(data);
+        .then(() => {
             res.sendStatus(201);
         });
 };
