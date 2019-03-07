@@ -80,6 +80,28 @@
                     "onUpdate": "CASCADE",
                     "field": "buyerId",
                     "seqType": "Sequelize.INTEGER"
+                },
+                "sellerId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "field": "sellerId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "sneakerId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "sneakers",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "field": "sneakerId",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -121,5 +143,5 @@
             "indexes": []
         }
     },
-    "revision": 22
+    "revision": 23
 }

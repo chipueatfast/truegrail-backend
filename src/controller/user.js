@@ -1,15 +1,27 @@
-import db from '~/sequelize/models';
+import { sequelize } from '~/sequelize/models';
+import { generateHashAndSalt } from 'user.service';
 
 const register = (req, res) => {
-    console.log(req.body);
-    db.User.create(req.body)
+    const { password } = req.body;
+    const {
+        hash: passwordHash,
+        salt: passwordSalt,
+    } = generateHashAndSalt(password);
+    sequelize.User.create({
+        ...req.body,
+        passwordHash,
+        passwordSalt,
+    })
         .then(() => {
             res.sendStatus(201);
-        });
+        })
+        .catch(() => {
+            res.statusCode(403);
+        })
 };
 
 const retrievePublicInfo = (req, res) => {
-    db.User.findOne({
+    sequelize.User.findOne({
         where: {
             firstName: req.query.fname,
         }

@@ -129,6 +129,16 @@
                     "field": "email",
                     "seqType": "Sequelize.STRING"
                 },
+                "passwordHash": {
+                    "allowNull": false,
+                    "field": "passwordHash",
+                    "seqType": "Sequelize.STRING"
+                },
+                "passwordSalt": {
+                    "allowNull": false,
+                    "field": "passwordSalt",
+                    "seqType": "Sequelize.STRING"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -143,5 +153,5 @@
             "indexes": []
         }
     },
-    "revision": 23
+    "revision": 24
 }

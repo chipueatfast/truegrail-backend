@@ -1,10 +1,10 @@
 import Express from 'express';
-import sequelize from '~/sequelize/models';
+import { sequelize } from '~/sequelize/models';
 import { UserRoute } from '~/route';
 import bodyParser from 'body-parser';
 
 const app = Express();
-const port = 2190;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
