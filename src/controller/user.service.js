@@ -1,16 +1,24 @@
-import Crypto from 'crypto';
+import bcrypt from 'bcrypt';
 
-import { sequelize } from '~/sequelize/models'
+import { sequelize } from '~/sequelize/models';
 
-function generateSaltAndHash(password) {
-    const salt = Crypto.randomBytes(256).toString('hex');
-    const hash = Crypto.scryptSync(password, salt, 64);
-    return {
-        salt,
-        hash,
-    }
+
+function generateHash(password) {
+    const saltRounds = 10;
+    return bcrypt.hashSync(password, saltRounds);
+}
+
+async function checkEmailExistence(email) {
+    return sequelize.User.find({
+        where: {
+            email,
+        }
+    }).then(user => {
+        return !!user;
+    })
 }
 
 export default {
-    generateSaltAndHash,
+    checkEmailExistence,
+    generateHash,
 }

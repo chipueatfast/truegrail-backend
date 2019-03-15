@@ -134,9 +134,8 @@
                     "field": "passwordHash",
                     "seqType": "Sequelize.STRING"
                 },
-                "passwordSalt": {
-                    "allowNull": false,
-                    "field": "passwordSalt",
+                "refreshToken": {
+                    "field": "refreshToken",
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -153,5 +152,5 @@
             "indexes": []
         }
     },
-    "revision": 24
+    "revision": 26
 }

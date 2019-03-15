@@ -11,13 +11,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      passwordSalt: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      refreshToken: DataTypes.STRING,
   }, {});
+
   User.associate = function(models) {
     // associations can be defined here
+  };
+
+  User.prototype.serialize = function () {
+      return {
+          ...this.dataValues,
+          passwordHash: undefined,
+      }
   };
   return User;
 };

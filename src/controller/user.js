@@ -1,36 +1,35 @@
 import { sequelize } from '~/sequelize/models';
-import { generateHashAndSalt } from 'user.service';
+import UserService from './user.service';
 
-const register = (req, res) => {
-    const { password } = req.body;
-    const {
-        hash: passwordHash,
-        salt: passwordSalt,
-    } = generateHashAndSalt(password);
+const register = async (req, res) => {
+    const { password, email } = req.body;
+    if (await UserService.checkEmailExistence(email)) {
+        res.sendStatus(400);
+        return;
+    }
+    const hash = UserService.generateHash(password);
+
     sequelize.User.create({
         ...req.body,
-        passwordHash,
-        passwordSalt,
+        passwordHash: hash,
     })
         .then(() => {
             res.sendStatus(201);
         })
-        .catch(() => {
-            res.statusCode(403);
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(403);
         })
 };
 
+// for them next iteration
+const sendSaltAndHash = () => {
+
+};
+
+
 const retrievePublicInfo = (req, res) => {
-    sequelize.User.findOne({
-        where: {
-            firstName: req.query.fname,
-        }
-    }).then(rs => {
-        if (rs) {
-            return res.send(rs);
-        }
-        return res.sendStatus(404);
-    });
+    res.send('it works');
 };
 
 export default {

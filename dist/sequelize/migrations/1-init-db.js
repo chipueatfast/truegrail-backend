@@ -11,7 +11,7 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "init-db",
+    "name": "init-sequelize",
     "created": "2019-02-24T11:42:07.874Z",
     "comment": ""
 };
