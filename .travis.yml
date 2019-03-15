@@ -13,6 +13,7 @@ before_install:
   -in id_rsa_travis_grail.enc -out ./id_rsa_travis_grail -d
 - chmod u+x deploy.sh
 after_success:
+  - echo $IP
   - sudo ./deploy.sh
 #- echo "running after success script"
 #- eval "$(ssh-agent -s)" # start ssh-agent cache
