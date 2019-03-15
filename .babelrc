@@ -5,5 +5,8 @@
         "rootPathSuffix": "src/"
       }
     ]
+  ],
+  "presets": [
+    "@babel/preset-env"
   ]
 }
