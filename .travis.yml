@@ -1,8 +1,5 @@
 env:
-  global:
-    - IP = 128.199.134.167
-    - PORT = 80
-    - DEPLOY_DIR = /usr/src/truegrail-backend
+  - IP=128.199.134.167 PORT=80 DEPLOY_DIR=/usr/src/truegrail-backend
 branches:
   only:
   - master
