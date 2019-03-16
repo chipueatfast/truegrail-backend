@@ -16,4 +16,4 @@ before_install:
 - chmod u+x deploy.sh
 after_success:
   - echo $IP
-  - printf('yes\n') |sudo ./deploy.sh
+  - printf 'yes\n' | sudo ./deploy.sh
