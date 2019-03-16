@@ -7,5 +7,5 @@ ssh-add id_rsa_travis_grail # add the private key to ssh
 
 #ssh  root@$IP
 git config --global push.default simple # push only one branch at a time
-git remote add -o StrictHostKeyChecking=no deploy root@$IP:$DEPLOY_DIR
+git remote add deploy root@$IP:$DEPLOY_DIR
 git push deploy master
