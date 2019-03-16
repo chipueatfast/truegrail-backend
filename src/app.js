@@ -44,7 +44,7 @@ app.all('/oauth/token', (req, res) => {
 });
 app.use('/user', UserRoute);
 
-console.log("cai dau buoi");
+console.log("cai dau banh");
 
 sequelize
     .authenticate()
