@@ -1,5 +1,8 @@
 env:
   - IP=128.199.134.167 PORT=80 DEPLOY_DIR=/usr/src/truegrail-backend
+addons:
+  ssh_known_hosts:
+  - git@github.com:chipueatfast/truegrail-backend.git
 branches:
   only:
   - master
@@ -12,11 +15,3 @@ before_install:
 after_success:
   - echo $IP
   - sudo ./deploy.sh
-#- echo "running after success script"
-#- eval "$(ssh-agent -s)" # start ssh-agent cache
-#- chmod 600 id_rsa_travis_grail # allow read access to the private key
-#- ssh-add id_rsa_travis_grail # add the private key to ssh
-#
-#- git config --global push.default simple # push only one branch at a time
-#- git remote add deploy ssh://git@RE:$PORT$DEPLOY_DIR
-#- git push deploy master
