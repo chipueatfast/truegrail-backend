@@ -1,9 +1,10 @@
 env:
   - IP=128.199.134.167 PORT=80 DEPLOY_DIR=/usr/src/truegrail-backend
-ssh_known_hosts:
-  - git@github.com:chipueatfast/truegrail-backend.git
-  - root@128.199.134.167:/usr/src/truegrail-backend
-  - 128.199.134.167
+addons:
+  ssh_known_hosts:
+    - git@github.com:chipueatfast/truegrail-backend.git
+    - root@128.199.134.167:/usr/src/truegrail-backend
+    - 128.199.134.167
 before_script:
   - echo -e "Host 128.199.134.167\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 branches:
