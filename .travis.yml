@@ -1,5 +1,5 @@
 env:
-  - IP=128.199.134.167 PORT=80 DEPLOY_DIR=/usr/src/truegrail-backend TRAVIS_SSH_KEY_TYPES=ssh-rsa
+  - IP=128.199.134.167 PORT=80 DEPLOY_DIR=/usr/src/truegrail-backend
 addons:
   ssh_known_hosts: 128.199.134.167
 branches:
