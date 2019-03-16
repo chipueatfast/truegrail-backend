@@ -3,6 +3,7 @@ env:
 addons:
   ssh_known_hosts:
   - git@github.com:chipueatfast/truegrail-backend.git
+  - root@128.199.134.167:/usr/src/truegrail-backend
 branches:
   only:
   - master
