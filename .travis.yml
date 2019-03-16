@@ -1,10 +1,8 @@
 env:
-  - IP=128.199.134.167 PORT=80 DEPLOY_DIR=/usr/src/truegrail-backend
+  - IP=128.199.134.167 PORT=80 DEPLOY_DIR=/usr/src/truegrail-backend TRAVIS_SSH_KEY_TYPES=ssh-rsa
 addons:
   ssh_known_hosts:
     - root@128.199.134.167
-before_script:
-  - echo -e "Host 128.199.134.167\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 branches:
   only:
   - master

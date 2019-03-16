@@ -7,7 +7,7 @@ ssh-add id_rsa_travis_grail # add the private key to ssh
 
 
 echo $TRAVIS_SSH_KEY_TYPES ${TRAVIS_HOME}
-printf 'yes\n' | ssh root@$IP
+ssh root@$IP
 #git config --global push.default simple # push only one branch at a time
 #git remote add deploy root@$IP:$DEPLOY_DIR
 #git push deploy master
