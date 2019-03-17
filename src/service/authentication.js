@@ -16,9 +16,9 @@ function retrieveUserAuthInfo(username) {
         where: {
             email: username,
         }
-    }).then(user => ({
+    }).then(user => user ? ({
         savedHash: user.passwordHash,
-    }));
+    }) : null);
 }
 
 function retrieveUserPublicInfo(username) {
