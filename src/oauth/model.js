@@ -3,16 +3,16 @@ import bcrypt from 'bcrypt';
 
 import { sequelize } from '~/sequelize/models';
 import AuthenticationService from '~/service/authentication';
+import DatabaseService from '~/service/database';
 
 export const getAccessToken = (accessToken) => {
     const verifiedToken = jwt.verify(accessToken, process.env.SECRET);
-
     verifiedToken.accessTokenExpiresAt = new Date(verifiedToken.accessTokenExpiresAt);
-
     return verifiedToken;
 };
 
 const saveToken = (token, client, user) => {
+
     const {
         saveRefreshToken
     } = AuthenticationService;
@@ -40,6 +40,28 @@ const saveToken = (token, client, user) => {
     return token;
 };
 
+const getRefreshToken = async (refreshToken) => {
+
+    const user = await DatabaseService.getSingleValueAsync('User', 'refreshToken', refreshToken);
+    if (!user) {
+        return null;
+    }
+
+    return {
+        refreshToken,
+        client: {
+            clientId: 'truegrail',
+            clientSecret: 'secret',
+        },
+        user: user.dataValues,
+    }
+};
+const revokeToken = (token) => {
+
+    // this can be where we store the blacklist
+    return true;
+};
+
 const getUser = async (username, password) => {
     const {
         retrieveUserAuthInfo,
@@ -60,8 +82,6 @@ const getUser = async (username, password) => {
 const getClient = (clientId, clientSecret) => {
     if (clientId === 'truegrailmobile' && clientSecret === 'secret') {
         return {
-            clientId,
-            clientSecret,
             grants: [
                 'password',
                 'refresh_token'
@@ -72,7 +92,9 @@ const getClient = (clientId, clientSecret) => {
 
 export default {
     getAccessToken,
+    getRefreshToken,
     getClient,
     getUser,
     saveToken,
+    revokeToken,
 }
