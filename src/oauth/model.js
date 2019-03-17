@@ -35,7 +35,11 @@ const saveToken = (token, client, user) => {
         accessTokenExpiresAt,
     }, process.env.SECRET);
     token.client = client;
-    token.user = user;
+    token.user = {
+        firstName,
+        lastName,
+        email,
+    };
 
     return token;
 };
