@@ -14,7 +14,9 @@ const register = async (req, res) => {
         passwordHash: hash,
     })
         .then(() => {
-            res.sendStatus(201);
+            res.status(201).send({
+                passwordHash: hash,
+            });
         })
         .catch((err) => {
             console.log(err);
