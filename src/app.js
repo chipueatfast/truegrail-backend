@@ -5,7 +5,9 @@ import {Request, Response} from "oauth2-server";
 import oauth from '~/oauth';
 import { checkNoAuthRequired } from '~/oauth/config';
 import { sequelize } from '~/sequelize/models';
-import { UserRoute } from '~/route';
+import { UserRoute, FactoryRoute, ContractRoute, SneakerRoute } from '~/route';
+
+
 
 const app = Express();
 const port = process.env.PORT;
@@ -15,6 +17,17 @@ app.oauth = oauth;
 // middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    if (req.method === "OPTIONS") {
+        console.log('hehe');
+        res.send(200);
+        return;
+    }
+    next();
+  });
 
 const AuthenticateRequest = (req, res, next) => {
         if (checkNoAuthRequired(req.path, req.method)) {
@@ -43,6 +56,9 @@ app.all('/oauth/token', (req, res) => {
         })
 });
 app.use('/user', UserRoute);
+app.use('/factory', FactoryRoute);
+app.use('/contract', ContractRoute);
+app.use('/sneaker', SneakerRoute);
 
 console.log("I tried to love you");
 

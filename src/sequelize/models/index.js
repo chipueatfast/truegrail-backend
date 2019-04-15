@@ -9,6 +9,9 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 const User = require('./user');
+const Factory = require('./factory');
+const Contract = require('./contract');
+const Sneaker =  require('./sneaker');
 
 let sequelize;
 if (config.use_env_variable) {
@@ -43,9 +46,21 @@ const mappingModels = (models, sequelize, Sequelize) => {
 
 mappingModels([
     {
-        name: 'User',
-        def: User,
+      name: 'User',
+      def: User,
     },
+    {
+      name: 'Factory',
+      def: Factory,
+    },
+    {
+      name: 'Contract',
+      def: Contract,
+    },
+    {
+      name: 'Sneaker',
+      def: Sneaker,
+    }
 ], sequelize, Sequelize);
 
 

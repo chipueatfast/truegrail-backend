@@ -20,14 +20,6 @@ module.exports = (sequelize, DataTypes) => {
                     allowNull: false,
                 }
             });
-        Transaction.belongsTo(
-            models.sneaker,
-            {
-                foreignKey: {
-                    allowNull: false,
-                }
-            }
-        );
     };
 
     return Transaction;

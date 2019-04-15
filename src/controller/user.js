@@ -34,7 +34,31 @@ const retrievePublicInfo = (req, res) => {
     res.send('it works hehe');
 };
 
+
+const getSneakerCollection = async (req, res) => {
+    const {
+        address,
+    } = req.params;
+
+    try {
+        const collection = await sequelize.Sneaker.findAll({
+            where: {
+                ownerAddress: address,
+            }
+        });
+        if (collection && collection.length !== 0) {
+            res.send(collection);
+        } else {
+            res.sendStatus(404)
+        }
+    } catch {
+        res.sendStatus(500);
+    }
+
+}
+
 export default {
     register,
     retrievePublicInfo,
+    getSneakerCollection,
 }

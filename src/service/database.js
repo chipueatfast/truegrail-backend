@@ -8,6 +8,11 @@ const getSingleValueAsync = (object, prop, value) =>  {
     })
 };
 
+const createSingleRowAsync = (tableName, rowData) => {
+    return sequelize[tableName].create(rowData)
+}
+
 export default {
     getSingleValueAsync,
+    createSingleRowAsync,
 }
