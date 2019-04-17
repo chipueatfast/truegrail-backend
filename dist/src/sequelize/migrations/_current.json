@@ -1,0 +1,229 @@
+{
+    "tables": {
+        "transactions": {
+            "tableName": "transactions",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "txHash": {
+                    "field": "txHash",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "buyerId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "field": "buyerId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "sellerId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "field": "sellerId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "users": {
+            "tableName": "users",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "firstName": {
+                    "allowNull": false,
+                    "field": "firstName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "lastName": {
+                    "field": "lastName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "email": {
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "passwordHash": {
+                    "allowNull": false,
+                    "field": "passwordHash",
+                    "seqType": "Sequelize.STRING"
+                },
+                "refreshToken": {
+                    "field": "refreshToken",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "factories": {
+            "tableName": "factories",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "blockchainAddress": {
+                    "allowNull": false,
+                    "field": "blockchainAddress",
+                    "seqType": "Sequelize.STRING"
+                },
+                "physicalAddress": {
+                    "field": "physicalAddress",
+                    "seqType": "Sequelize.STRING"
+                },
+                "brand": {
+                    "allowNull": false,
+                    "field": "brand",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "contracts": {
+            "tableName": "contracts",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "jsonContent": {
+                    "allowNull": false,
+                    "field": "jsonContent",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "creator": {
+                    "allowNull": false,
+                    "field": "creator",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "sneakers": {
+            "tableName": "sneakers",
+            "schema": {
+                "id": {
+                    "autoIncrement": false,
+                    "primaryKey": true,
+                    "unique": true,
+                    "field": "id",
+                    "seqType": "Sequelize.BIGINT"
+                },
+                "brand": {
+                    "field": "brand",
+                    "seqType": "Sequelize.STRING"
+                },
+                "model": {
+                    "field": "model",
+                    "seqType": "Sequelize.STRING"
+                },
+                "colorway": {
+                    "field": "colorway",
+                    "seqType": "Sequelize.STRING"
+                },
+                "limitedEdition": {
+                    "field": "limitedEdition",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "releaseDate": {
+                    "field": "releaseDate",
+                    "seqType": "Sequelize.DATEONLY"
+                },
+                "size": {
+                    "field": "size",
+                    "seqType": "Sequelize.FLOAT"
+                },
+                "condition": {
+                    "field": "condition",
+                    "seqType": "Sequelize.ENUM('issued', 'sold', 'resold', 'stolen')"
+                },
+                "ownerAddress": {
+                    "field": "ownerAddress",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        }
+    },
+    "revision": 37
+}
