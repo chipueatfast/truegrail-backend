@@ -31,7 +31,7 @@ const sendSaltAndHash = () => {
 
 
 const retrievePublicInfo = (req, res) => {
-    res.send('last time 7');
+    res.send('last time 8');
 };
 
 
