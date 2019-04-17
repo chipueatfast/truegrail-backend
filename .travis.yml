@@ -8,10 +8,11 @@ branches:
 language: node_js
 node_js: 8.10.0
 before_install:
-- cat $TRAVIS_HOME/.ssh/known_hosts
 - openssl aes-256-cbc -K $encrypted_507e586d9e43_key -iv $encrypted_507e586d9e43_iv
   -in id_rsa_travis_grail.enc -out ./id_rsa_travis_grail -d
 - chmod u+x deploy.sh
 after_success:
   - echo $IP
   - sudo ./deploy.sh
+
+

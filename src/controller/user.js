@@ -31,7 +31,7 @@ const sendSaltAndHash = () => {
 
 
 const retrievePublicInfo = (req, res) => {
-    res.send('it works hehe');
+    res.send('it works hehe phan 2');
 };
 
 
