@@ -60,7 +60,7 @@ app.use('/factory', FactoryRoute);
 app.use('/contract', ContractRoute);
 app.use('/sneaker', SneakerRoute);
 
-console.log("I tried to love you");
+console.log("Wake up wake up");
 
 sequelize
     .authenticate()
