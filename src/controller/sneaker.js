@@ -3,6 +3,21 @@ import { sequelize } from '~/sequelize/models';
 import DatabaseService from '~/service/database';
 
 
+const changeOwnership = async (req, res) => {
+    const sneaker = await DatabaseService.getSingleValueAsync('Sneaker', 'id', req.body.sneakerId);
+    if (sneaker) {
+        try {
+            sneaker.update({
+                ownerAddress: req.body.newAddress,
+            }).then(() => res.sendStatus(203));
+        } catch {
+            res.sendStatus(500);
+        }
+        return;
+    }
+    res.sendStatus(400);
+}
+
 const getSneaker = async (req, res) => {
     const sneaker = await DatabaseService.getSingleValueAsync('Sneaker', 'id', req.params.id);
     if (sneaker) {
@@ -67,4 +82,5 @@ const addSneaker = async (req, res) => {
 export default {
     addSneaker,
     getSneaker,
+    changeOwnership,
 };

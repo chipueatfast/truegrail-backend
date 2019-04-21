@@ -9,3 +9,4 @@ factoryRouter
     .get('/:address', FactoryController.getFactory);
 
 export default factoryRouter;
+
