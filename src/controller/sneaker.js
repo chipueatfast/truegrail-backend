@@ -63,6 +63,7 @@ const getSneaker = async (req, res) => {
         });
         return;
     }
+    return res.sendStatus(404);
 };
 
 const addSneaker = async (req, res) => {
