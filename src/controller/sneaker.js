@@ -33,6 +33,18 @@ const getSneaker = async (req, res) => {
             ownerAddress,
         } = sneaker;
 
+        const refinedSneaker = {
+            brand,
+            model,
+            colorway,
+            id,
+            condition,
+            releaseDate,
+            limitedEdition,
+            size,
+            ownerAddress,
+        };
+
         // get owner infomation 
         let owner;
         if (condition === 'issued') {
@@ -48,17 +60,8 @@ const getSneaker = async (req, res) => {
         
     
         res.send({
-            detail: sneaker,
-            hash: hash({
-                id,
-                brand,
-                model,
-                colorway,
-                condition,
-                releaseDate,
-                limitedEdition,
-                size,
-            }),
+            detail: refinedSneaker,
+            hash: hash(refinedSneaker),
             owner
         });
         return;
