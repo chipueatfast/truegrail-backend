@@ -1,6 +1,7 @@
 import hash from 'object-hash';
 import { sequelize } from '~/sequelize/models';
 import DatabaseService from '~/service/database';
+import blockchainService from '~/service/blockchain';
 
 
 const changeOwnership = async (req, res) => {
@@ -81,10 +82,16 @@ const addSneaker = async (req, res) => {
     }
 };
 
+const handleIssueEvent = async (req, res) => {
+    blockchainService.listenToIssueEvent({
+        _tokenId: req.body.id,
+    }, addSneaker.bind(null, req, res));
+}
+
 
 
 export default {
-    addSneaker,
+    handleIssueEvent,
     getSneaker,
     changeOwnership,
 };

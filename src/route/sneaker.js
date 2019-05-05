@@ -5,7 +5,7 @@ const sneakerRouter = Router();
 
 sneakerRouter
     .get('/:id', SneakerController.getSneaker)
-    .post('/', SneakerController.addSneaker)
+    .post('/', SneakerController.handleIssueEvent)
     .patch('/ownership', SneakerController.changeOwnership)
 ;
 
