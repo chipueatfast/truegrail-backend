@@ -35,6 +35,7 @@
     "npm-watch": "^0.6.0",
     "oauth2-server": "^3.0.1",
     "object-hash": "^1.3.1",
+    "pusher": "^2.2.0",
     "sequelize": "^4.42.0",
     "sequelize-auto-migrations": "^1.0.3",
     "sequelize-cli": "^5.4.0",

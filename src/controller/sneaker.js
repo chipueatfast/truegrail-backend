@@ -2,8 +2,14 @@ import hash from 'object-hash';
 import { sequelize } from '~/sequelize/models';
 import DatabaseService from '~/service/database';
 import blockchainService from '~/service/blockchain';
+import pusher from '~/utils/pusher';
 
-
+const testPusher = async () => {
+    pusher.trigger('long', 'test', {
+        message: 'di choi k em',
+    });
+}
+ 
 const changeOwnership = async (req, res) => {
     const sneaker = await DatabaseService.getSingleValueAsync('Sneaker', 'id', req.body.sneakerId);
     if (sneaker) {
@@ -94,4 +100,5 @@ export default {
     handleIssueEvent,
     getSneaker,
     changeOwnership,
+    testPusher,
 };
