@@ -1,6 +1,7 @@
 # misc
 .idea
 .env
+contracts
 
 # dependencies
 node_modules
