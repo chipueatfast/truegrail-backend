@@ -28,28 +28,16 @@ const changeOwnership = async (req, res) => {
 const getSneaker = async (req, res) => {
     const sneaker = await DatabaseService.getSingleValueAsync('Sneaker', 'id', req.params.id);
     if (sneaker) {
-        const {
-            brand,
-            model,
-            colorway,
-            id,
-            condition,
-            releaseDate,
-            limitedEdition,
-            size,
-            ownerAddress,
-        } = sneaker;
-
-        const refinedSneaker = {
-            brand,
-            model,
-            colorway,
-            id,
-            condition,
-            releaseDate,
-            limitedEdition,
-            size,
-            ownerAddress,
+        const filteredSneaker = {
+            brand: sneaker.brand,
+            model: sneaker.model,
+            colorway: sneaker.colorway,
+            id: sneaker.id,
+            condition: sneaker.condition,
+            releaseDate: sneaker.releaseDate,
+            limitedEdition: sneaker.limitedEdition,
+            size: sneaker.size,
+            ownerAddress: sneaker.ownerAddress,
         };
 
         // get owner infomation 
@@ -63,12 +51,18 @@ const getSneaker = async (req, res) => {
                     blockchainAddress: factory.blockchainAddress,
                 }
             }
+
+            const user = await DatabaseService.getSingleValueAsync('User', 'networkAddress', ownerAddress);
+            if (user) {
+                owner = {
+                    name: user.firstName + user.lastName,
+                }
+            }
         }
         
     
         res.send({
-            detail: refinedSneaker,
-            hash: hash(refinedSneaker),
+            detail: filteredSneaker,
             owner
         });
         return;
