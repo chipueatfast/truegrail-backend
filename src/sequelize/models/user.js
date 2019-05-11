@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       refreshToken: DataTypes.STRING,
+      networkAddress: DataTypes.STRING,
   }, {});
 
   User.associate = function(models) {
