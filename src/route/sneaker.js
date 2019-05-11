@@ -7,7 +7,7 @@ sneakerRouter
     .get('/:id', SneakerController.getSneaker)
     .post('/', SneakerController.addSneaker)
     .patch('/ownership', SneakerController.changeOwnership)
-    .put('/testpush', SneakerController.testPusher)
+    // .put('/testpush', SneakerController.testPusher)
 ;
 
 export default sneakerRouter;
