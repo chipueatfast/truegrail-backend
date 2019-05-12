@@ -41,8 +41,8 @@ const getSneaker = async (req, res) => {
 
         // get owner infomation 
         let owner;
-        if (condition === 'issued') {
-            const factory = await DatabaseService.getSingleValueAsync('Factory', 'blockchainAddress', ownerAddress);
+        if (sneaker.condition === 'issued') {
+            const factory = await DatabaseService.getSingleValueAsync('Factory', 'blockchainAddress', sneaker.ownerAddress);
             if (factory) {
                 owner = {
                     brand: factory.brand,
@@ -51,7 +51,7 @@ const getSneaker = async (req, res) => {
                 }
             }
 
-            const user = await DatabaseService.getSingleValueAsync('User', 'networkAddress', ownerAddress);
+            const user = await DatabaseService.getSingleValueAsync('User', 'networkAddress', sneaker.ownerAddress);
             if (user) {
                 owner = {
                     name: user.firstName + user.lastName,
@@ -59,11 +59,11 @@ const getSneaker = async (req, res) => {
             }
         }
         
-    
         res.send({
             detail: filteredSneaker,
             owner
         });
+
         return;
     }
     return res.sendStatus(404);
