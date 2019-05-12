@@ -70,12 +70,12 @@ const getSneaker = async (req, res) => {
     return res.sendStatus(404);
 };
 
-const addSneaker = async (req, res) => {
+const addSneaker = async (req, res) => async (returnedValues) => {
+    console.log(returnedValues);
     try {
         const newSneaker = await DatabaseService.createSingleRowAsync('Sneaker', req.body);
         if (newSneaker) {
-            res.sendStatus(201);
-            return;
+            return 201;
         }
     } catch (err) {
         throw new Error(err);
@@ -83,9 +83,11 @@ const addSneaker = async (req, res) => {
 };
 
 const handleIssueEvent = async (req, res) => {
-    blockchainService.listenToIssueEvent({
+    console.log('handle issue event');
+    const result = await blockchainService.listenToEvent('Issue', {
         _tokenId: req.body.id,
-    }, addSneaker.bind(null, req, res));
+    }, addSneaker(req, res));
+    res.sendStatus(result);
 }
 
 
