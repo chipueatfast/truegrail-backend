@@ -26,7 +26,7 @@ app.use(function(req, res, next) {
         return;
     }
     next();
-  });
+});
 
 const AuthenticateRequest = (req, res, next) => {
         if (checkNoAuthRequired(req.path, req.method)) {
@@ -66,7 +66,7 @@ sequelize
     .then(() => {
         console.log('Connection has been established successfully');
     })
-    .catch(err => {
+    .catch((err) => {
         console.log('Unable to connect to database: ', err);
     });
 
