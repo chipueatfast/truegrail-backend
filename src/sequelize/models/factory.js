@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        // passwordHash: {
+        //     type: DataTypes.STRING,
+        //     allowNull: false,
+        // },
     });
 
     return Factory;

@@ -46,7 +46,7 @@ const saveToken = (token, client, user) => {
 
 const getRefreshToken = async (refreshToken) => {
 
-    const user = await DatabaseService.getSingleValueAsync('User', 'refreshToken', refreshToken);
+    const user = await DatabaseService.getRowBySingleValueAsync('User', 'refreshToken', refreshToken);
     if (!user) {
         return null;
     }

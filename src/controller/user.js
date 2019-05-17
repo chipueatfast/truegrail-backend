@@ -1,13 +1,18 @@
 import { sequelize } from '~/sequelize/models';
 import UserService from './user.service';
+import { generateHash } from '~/service/encryption';
+import DatabaseService from '~/service/database';
 
 const register = async (req, res) => {
     const { password, email } = req.body;
-    if (await UserService.checkEmailExistence(email)) {
+
+    // check email existence
+    if (await DatabaseService.getRowBySingleValueAsync('User', 'email', email)) {
         res.sendStatus(400);
         return;
     }
-    const hash = UserService.generateHash(password);
+
+    const hash = generateHash(password);
 
     sequelize.User.create({
         ...req.body,
@@ -44,7 +49,7 @@ const getSneakerCollection = async (req, res) => {
         const collection = await sequelize.Sneaker.findAll({
             where: {
                 ownerAddress: address,
-            }
+            },
         });
         if (collection && collection.length !== 0) {
             res.send(collection);

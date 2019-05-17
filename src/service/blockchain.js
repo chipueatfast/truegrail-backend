@@ -23,11 +23,14 @@ class BlockchainService {
     }
 
     async listenToEvent(event, indexed, requestHandler) {
-        await this.contractInstance.once(event, indexed, (e) => {
-            if (e && e.returnValues) {
-                return requestHandler(e.returnValues)
-            }
-        })
+        // console.log('listen to event ', event, indexed);
+        return new Promise((resolve) => {
+            this.contractInstance.once(event, indexed, (err, event) => {
+                if (event && event.returnValues) {
+                    return requestHandler(resolve, event.returnValues)
+                }
+            })
+        });
     }
 }
 

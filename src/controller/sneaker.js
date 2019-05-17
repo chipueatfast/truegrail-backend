@@ -10,23 +10,23 @@ import blockchainService from '~/service/blockchain';
 //     });
 // }
  
-const changeOwnership = async (req, res) => {
-    const sneaker = await DatabaseService.getSingleValueAsync('Sneaker', 'id', req.body.sneakerId);
+const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
+    const sneaker = await DatabaseService.getRowBySingleValueAsync('Sneaker', 'id', req.body.sneakerId);
     if (sneaker) {
         try {
             sneaker.update({
                 ownerAddress: req.body.newAddress,
-            }).then(() => res.sendStatus(203));
+            }).then(() => resolve(203));
         } catch {
-            res.sendStatus(500);
+            resolve(500);
         }
         return;
     }
-    res.sendStatus(400);
+    resolve(400);
 }
 
 const getSneaker = async (req, res) => {
-    const sneaker = await DatabaseService.getSingleValueAsync('Sneaker', 'id', req.params.id);
+    const sneaker = await DatabaseService.getRowBySingleValueAsync('Sneaker', 'id', req.params.id);
     if (sneaker) {
         const filteredSneaker = {
             brand: sneaker.brand,
@@ -43,7 +43,7 @@ const getSneaker = async (req, res) => {
         // get owner infomation 
         let owner;
         if (condition === 'issued') {
-            const factory = await DatabaseService.getSingleValueAsync('Factory', 'blockchainAddress', ownerAddress);
+            const factory = await DatabaseService.getRowBySingleValueAsync('Factory', 'blockchainAddress', ownerAddress);
             if (factory) {
                 owner = {
                     brand: factory.brand,
@@ -52,7 +52,7 @@ const getSneaker = async (req, res) => {
                 }
             }
 
-            const user = await DatabaseService.getSingleValueAsync('User', 'networkAddress', ownerAddress);
+            const user = await DatabaseService.getRowBySingleValueAsync('User', 'networkAddress', ownerAddress);
             if (user) {
                 owner = {
                     name: user.firstName + user.lastName,
@@ -70,12 +70,11 @@ const getSneaker = async (req, res) => {
     return res.sendStatus(404);
 };
 
-const addSneaker = async (req, res) => async (returnedValues) => {
-    console.log(returnedValues);
+const addSneaker = async (req, res) => async (resolve, returnedValues) => {
     try {
         const newSneaker = await DatabaseService.createSingleRowAsync('Sneaker', req.body);
         if (newSneaker) {
-            return 201;
+            resolve(201);
         }
     } catch (err) {
         throw new Error(err);
@@ -83,10 +82,23 @@ const addSneaker = async (req, res) => async (returnedValues) => {
 };
 
 const handleIssueEvent = async (req, res) => {
-    console.log('handle issue event');
     const result = await blockchainService.listenToEvent('Issue', {
         _tokenId: req.body.id,
-    }, addSneaker(req, res));
+    }, await addSneaker(req, res));
+    if (!result) {
+        return res.send(500);
+    }
+    res.sendStatus(result);
+}
+
+const handleTransferEvent = async (req, res) => {
+    const result = await blockchainService.listenToEvent('Transfer', {
+        _tokenId: req.body.sneakerId,
+        _to: req.body.newAddress,
+    }, await changeOwnership(req, res));
+    if (!result) {
+        return res.send(500);
+    }
     res.sendStatus(result);
 }
 
@@ -95,6 +107,6 @@ const handleIssueEvent = async (req, res) => {
 export default {
     handleIssueEvent,
     getSneaker,
-    changeOwnership,
+    handleTransferEvent,
     // testPusher,
 };
