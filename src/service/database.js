@@ -1,10 +1,10 @@
 import { sequelize } from '~/sequelize/models';
 
-const getSingleValueAsync = (object, prop, value) =>  {
-    return sequelize[object].find({
+const getRowBySingleValueAsync = (tableName, prop, value) =>  {
+    return sequelize[tableName].find({
         where: {
             [prop]: value,
-        }
+        },
     })
 };
 
@@ -13,6 +13,6 @@ const createSingleRowAsync = (tableName, rowData) => {
 }
 
 export default {
-    getSingleValueAsync,
+    getRowBySingleValueAsync,
     createSingleRowAsync,
 }

@@ -1,6 +1,7 @@
 import hash from 'object-hash';
 import { sequelize } from '~/sequelize/models';
 import DatabaseService from '~/service/database';
+import blockchainService from '~/service/blockchain';
 // import pusher from '~/utils/pusher';
 
 // const testPusher = async () => {
@@ -9,23 +10,23 @@ import DatabaseService from '~/service/database';
 //     });
 // }
  
-const changeOwnership = async (req, res) => {
-    const sneaker = await DatabaseService.getSingleValueAsync('Sneaker', 'id', req.body.sneakerId);
+const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
+    const sneaker = await DatabaseService.getRowBySingleValueAsync('Sneaker', 'id', req.body.sneakerId);
     if (sneaker) {
         try {
             sneaker.update({
                 ownerAddress: req.body.newAddress,
-            }).then(() => res.sendStatus(203));
+            }).then(() => resolve(203));
         } catch {
-            res.sendStatus(500);
+            resolve(500);
         }
         return;
     }
-    res.sendStatus(400);
+    resolve(400);
 }
 
 const getSneaker = async (req, res) => {
-    const sneaker = await DatabaseService.getSingleValueAsync('Sneaker', 'id', req.params.id);
+    const sneaker = await DatabaseService.getRowBySingleValueAsync('Sneaker', 'id', req.params.id);
     if (sneaker) {
         const filteredSneaker = {
             brand: sneaker.brand,
@@ -41,8 +42,8 @@ const getSneaker = async (req, res) => {
 
         // get owner infomation 
         let owner;
-        if (sneaker.condition === 'issued') {
-            const factory = await DatabaseService.getSingleValueAsync('Factory', 'blockchainAddress', sneaker.ownerAddress);
+        if (condition === 'issued') {
+            const factory = await DatabaseService.getRowBySingleValueAsync('Factory', 'blockchainAddress', filteredSneaker.ownerAddress);
             if (factory) {
                 owner = {
                     brand: factory.brand,
@@ -51,7 +52,7 @@ const getSneaker = async (req, res) => {
                 }
             }
 
-            const user = await DatabaseService.getSingleValueAsync('User', 'networkAddress', sneaker.ownerAddress);
+            const user = await DatabaseService.getRowBySingleValueAsync('User', 'networkAddress', filteredSneaker.ownerAddress);
             if (user) {
                 owner = {
                     name: user.firstName + user.lastName,
@@ -61,7 +62,7 @@ const getSneaker = async (req, res) => {
         
         res.send({
             detail: filteredSneaker,
-            owner
+            owner,
         });
 
         return;
@@ -69,23 +70,43 @@ const getSneaker = async (req, res) => {
     return res.sendStatus(404);
 };
 
-const addSneaker = async (req, res) => {
+const addSneaker = async (req, res) => async (resolve, returnedValues) => {
     try {
         const newSneaker = await DatabaseService.createSingleRowAsync('Sneaker', req.body);
         if (newSneaker) {
-            res.sendStatus(201);
-            return;
+            resolve(201);
         }
     } catch (err) {
         throw new Error(err);
     }
 };
 
+const handleIssueEvent = async (req, res) => {
+    const result = await blockchainService.listenToEvent('Issue', {
+        _tokenId: req.body.id,
+    }, await addSneaker(req, res));
+    if (!result) {
+        return res.send(500);
+    }
+    res.sendStatus(result);
+}
+
+const handleTransferEvent = async (req, res) => {
+    const result = await blockchainService.listenToEvent('Transfer', {
+        _tokenId: req.body.sneakerId,
+        _to: req.body.newAddress,
+    }, await changeOwnership(req, res));
+    if (!result) {
+        return res.send(500);
+    }
+    res.sendStatus(result);
+}
+
 
 
 export default {
-    addSneaker,
+    handleIssueEvent,
     getSneaker,
-    changeOwnership,
+    handleTransferEvent,
     // testPusher,
 };

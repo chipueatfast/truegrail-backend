@@ -1,0 +1,66 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "legacyDecorators": true
+      }
+    },
+    "globals": {
+      "__DEV__": true,
+      "__ENV__": true
+    },
+    "rules": {
+      "no-undef": 1,
+      "no-underscore-dangle": [2, {
+        "allow": ["__DEV__", "__ENV__"]
+      }],
+      "no-restricted-globals": 0,
+      "no-shadow": 0,
+      "no-script-url": 0,
+      "no-mixed-operators": 0,
+      "no-nested-ternary": 0,
+      "object-curly-newline": 0,
+      "semi": 0,
+      "arrow-parens": [2, "as-needed",{
+        "requireForBlockBody": true
+      }],
+      "arrow-body-style": [2, "as-needed"],
+      "class-methods-use-this": 0,
+      "comma-dangle": [2, "always-multiline"],
+      "max-len": 0,
+      "newline-per-chained-call": 0,
+      "no-confusing-arrow": 0,
+      "no-console": 1,
+      "no-use-before-define": 0,
+      "prefer-template": 2,
+      "require-yield": 0,
+      "global-require": 0,
+      "operator-linebreak": 0,
+  
+      "import/imports-first": 0,
+      "import/newline-after-import": 0,
+      "import/no-dynamic-require": 0,
+      "import/no-extraneous-dependencies": 0,
+      "import/no-named-as-default": 0,
+      "import/no-webpack-loader-syntax": 0,
+      "import/prefer-default-export": 0,
+      "import/first": 0,
+      "indent": [2, 4, {
+        "SwitchCase": 1
+      }]
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "moduleDirectory": ["node_modules", "src"]
+        }
+      }
+    }
+  }
+  

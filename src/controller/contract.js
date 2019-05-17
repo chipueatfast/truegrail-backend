@@ -3,7 +3,7 @@ import DatabaseService from '~/service/database';
 
 
 const getContract = async (req, res) => {
-    const contract = await DatabaseService.getSingleValueAsync('Contract', 'name', req.params.name);
+    const contract = await DatabaseService.getRowBySingleValueAsync('Contract', 'name', req.params.name);
     if (!contract) {
         res.sendStatus(404);
         return;
@@ -12,7 +12,7 @@ const getContract = async (req, res) => {
 }
 
 const createOrUpdateContract = async (req, res) => {
-    const existingContract = await DatabaseService.getSingleValueAsync('Contract', 'name', req.body.name);
+    const existingContract = await DatabaseService.getRowBySingleValueAsync('Contract', 'name', req.body.name);
     if (!existingContract) {
         const newContract = await DatabaseService.createSingleRowAsync('Contract', req.body);
         if (newContract) {
