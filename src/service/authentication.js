@@ -3,9 +3,9 @@ import { sequelize } from '~/sequelize/models';
 // for the blacklist implementation
 function saveRefreshToken(userId, refreshToken) {
     return sequelize.User.findByPk(userId).then(
-        user => {
+        (user) => {
             user.update({
-                refreshToken
+                refreshToken,
             })
         }
     )
@@ -15,7 +15,7 @@ function retrieveUserAuthInfo(username) {
     return sequelize.User.find({
         where: {
             email: username,
-        }
+        },
     }).then(user => user ? ({
         savedHash: user.passwordHash,
     }) : null);
@@ -25,7 +25,7 @@ function retrieveUserPublicInfo(username) {
     return sequelize.User.find({
         where: {
             email: username,
-        }
+        },
     }).then(user => user.serialize());
 }
 
