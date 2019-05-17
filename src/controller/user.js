@@ -1,5 +1,4 @@
 import { sequelize } from '~/sequelize/models';
-import UserService from './user.service';
 import { generateHash } from '~/service/encryption';
 import DatabaseService from '~/service/database';
 
