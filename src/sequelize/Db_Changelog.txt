@@ -1,0 +1,5 @@
+// This is the file to take note every change in the db during development time
+// in an effort to prevent inconsistency between 2 environment's database
+// and database versioning while the sequelize ORM prove to be too cumbersome 
+// to do such task 
+
