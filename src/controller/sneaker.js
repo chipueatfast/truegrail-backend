@@ -42,7 +42,7 @@ const getSneaker = async (req, res) => {
 
         // get owner infomation 
         let owner;
-        if (condition === 'issued') {
+        if (filteredSneaker.condition === 'issued') {
             const factory = await DatabaseService.getRowBySingleValueAsync('Factory', 'blockchainAddress', filteredSneaker.ownerAddress);
             if (factory) {
                 owner = {
