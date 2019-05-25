@@ -39,6 +39,29 @@ const retrievePublicInfo = (req, res) => {
 };
 
 
+// please apply knex if you have time
+const restoreAccountByNetworkAddress = async (req, res) => {
+    const user = await DatabaseService.getRowBySingleValueAsync('User', 'networkAddress', req.params.networkAddress);
+    try {
+        if (user) {
+            user.update({
+                registrationToken: req.body.registrationToken,
+            });
+            res.send({
+                email: user.email,
+            });
+            return;
+        }
+    } catch {
+        res.sendStatus(500);
+        return;
+    }
+    
+    res.sendStatus(404);
+};
+
+
+
 const getSneakerCollection = async (req, res) => {
     const {
         address,
@@ -64,5 +87,6 @@ const getSneakerCollection = async (req, res) => {
 export default {
     register,
     retrievePublicInfo,
+    restoreAccountByNetworkAddress,
     getSneakerCollection,
 }

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         refreshToken: DataTypes.STRING,
         networkAddress: DataTypes.STRING,
+        registrationToken: DataTypes.STRING,
     }, {});
 
     User.associate = function(models) {

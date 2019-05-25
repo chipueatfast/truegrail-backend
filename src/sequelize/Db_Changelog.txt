@@ -3,3 +3,7 @@
 // and database versioning while the sequelize ORM prove to be too cumbersome 
 // to do such task 
 
+May 25, 2019
+Add registration_token column to user table
+Purpose: to serve the fcm feature
+

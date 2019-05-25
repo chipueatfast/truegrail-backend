@@ -21,9 +21,11 @@ class BlockchainService {
         // console.log('listen to event ', event, indexed);
         return new Promise((resolve) => {
             this.contractInstance.once(event, indexed, (err, event) => {
+                // setTimeout(() => {
                 if (event && event.returnValues) {
                     return requestHandler(resolve, event.returnValues)
                 }
+                // }, 20000);
             })
         });
     }

@@ -14,7 +14,7 @@ export const getAccessToken = (accessToken) => {
 const saveToken = (token, client, user) => {
 
     const {
-        saveRefreshToken
+        saveRefreshToken,
     } = AuthenticationService;
     const {
         refreshToken,
@@ -76,6 +76,7 @@ const getUser = async (username, password) => {
         const {
             savedHash,
         } = authInfo;
+
         if (bcrypt.compareSync(password, savedHash)) {
             return await retrieveUserPublicInfo(username);
         }
@@ -88,7 +89,7 @@ const getClient = (clientId, clientSecret) => {
         return {
             grants: [
                 'password',
-                'refresh_token'
+                'refresh_token',
             ],
         }
     }
