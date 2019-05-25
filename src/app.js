@@ -29,16 +29,16 @@ app.use(function(req, res, next) {
 });
 
 const AuthenticateRequest = (req, res, next) => {
-        if (checkNoAuthRequired(req.path, req.method)) {
-            next();
-            return;
-        }
-        const request = new Request(req);
-        const response = new Response(res);
-        app.oauth.authenticate(request, response)
-            .then(() => next())
-            .catch(function (err) { res.status(err.code || 500).json(err) })
-    };
+    if (checkNoAuthRequired(req.path, req.method)) {
+        next();
+        return;
+    }
+    const request = new Request(req);
+    const response = new Response(res);
+    app.oauth.authenticate(request, response)
+        .then(() => next())
+        .catch(function (err) { res.status(err.code || 500).json(err) })
+};
 
 app.use(AuthenticateRequest);
 

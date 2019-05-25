@@ -12,6 +12,7 @@ import { sendFCM } from '~/service/fcm';
 // }
  
 const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
+    console.log('Change ownership');
     const retrieveUser = DatabaseService.getRowBySingleValueAsync('User', 
         'networkAddress', 
         req.body.newAddress.toLowerCase());
@@ -26,11 +27,12 @@ const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
             sneaker.update({
                 ownerAddress: req.body.newAddress,
             }).then((newSneaker) => {
-                
-                sendFCM(user.registrationToken, { 
-                    title: 'Change of ownership',
-                    body: `${newSneaker.email} is now the owner of ${newSneaker.model} size ${newSneaker.size}US`,  
-                });
+                if (user.registrationToken) {
+                    sendFCM(user.registrationToken, { 
+                        title: 'Change of ownership',
+                        body: `${newSneaker.email} is now the owner of ${newSneaker.model} size ${newSneaker.size}US`,  
+                    });
+                }
                 resolve(203);
             });
         } catch {
