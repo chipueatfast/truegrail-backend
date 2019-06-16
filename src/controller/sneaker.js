@@ -27,7 +27,7 @@ const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
             sneaker.update({
                 ownerAddress: req.body.newAddress,
             }).then((newSneaker) => {
-                if (user.registrationToken) {
+                if (user && user.registrationToken) {
                     sendFCM(user.registrationToken, { 
                         title: 'Change of ownership',
                         body: `${newSneaker.email} is now the owner of ${newSneaker.model} size ${newSneaker.size}US`,  
