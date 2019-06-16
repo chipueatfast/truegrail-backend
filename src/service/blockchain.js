@@ -55,13 +55,16 @@ class BlockchainService {
     }
 
     async listenToEvent(event, indexed, requestHandler) {
-        // console.log('listen to event ', event, indexed);
+        // TODO: change the way of listening event;
+        let hasConducted = false;
         return new Promise((resolve) => {
             this.contractInstance.once(event, {
                 filter: indexed,
             }, (err, event) => {
                 // setTimeout(() => {
-                if (event && event.returnValues) {
+                // currently can not remove the event listener 
+                if (event && event.returnValues && !hasConducted) {
+                    hasConducted = true;
                     return requestHandler(resolve, event.returnValues)
                 }
                 // }, 20000);
