@@ -7,5 +7,6 @@ contractRouter
     .get('/:name', ContractController.getContract)
     .post('/', ContractController.createOrUpdateContract)
     .get('/creator/:contractName', ContractController.getContractCreator);
+// .patch('/wei/:address', ContractController.sendMoneyToMember);
 
 export default contractRouter;

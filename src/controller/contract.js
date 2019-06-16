@@ -1,5 +1,6 @@
 import { sequelize } from '~/sequelize/models';
 import DatabaseService from '~/service/database';
+import BlockchainService from '~/service/blockchain';
 
 
 const getContract = async (req, res) => {
@@ -9,6 +10,15 @@ const getContract = async (req, res) => {
         return;
     }
     return res.send(contract);
+}
+
+const sendMoneyToMember = async(req, res) => {
+    const {
+        address,
+    } = req.params;
+
+    const result = await BlockchainService.sendWei(address);
+    res.sendStatus(Boolean(result) ? 204: 500);
 }
 
 const createOrUpdateContract = async (req, res) => {
@@ -51,4 +61,5 @@ export default {
     getContract,
     createOrUpdateContract,
     getContractCreator,
+    sendMoneyToMember,
 }

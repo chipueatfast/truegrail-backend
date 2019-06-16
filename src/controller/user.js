@@ -1,9 +1,10 @@
 import { sequelize } from '~/sequelize/models';
 import { generateHash } from '~/service/encryption';
 import DatabaseService from '~/service/database';
+import BlockchainService from '~/service/blockchain';
 
 const register = async (req, res) => {
-    const { password, email } = req.body;
+    const { password, email, networkAddress } = req.body;
 
     // check email existence
     if (await DatabaseService.getRowBySingleValueAsync('User', 'email', email)) {
@@ -18,6 +19,13 @@ const register = async (req, res) => {
         passwordHash: hash,
     })
         .then(() => {
+            // temporary
+            try {
+                BlockchainService.sendWei(networkAddress);
+            } catch(e) {
+                console.log(e);
+            }
+            
             res.status(201).send({
                 passwordHash: hash,
             });
