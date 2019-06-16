@@ -3,13 +3,6 @@ import { sequelize } from '~/sequelize/models';
 import DatabaseService from '~/service/database';
 import blockchainService from '~/service/blockchain';
 import { sendFCM } from '~/service/fcm';
-// import pusher from '~/utils/pusher';
-
-// const testPusher = async () => {
-//     pusher.trigger('long', 'test', {
-//         message: 'di choi k em',
-//     });
-// }
  
 const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
     console.log('Change ownership');
@@ -28,9 +21,10 @@ const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
                 ownerAddress: req.body.newAddress,
             }).then((newSneaker) => {
                 if (user && user.registrationToken) {
+
                     sendFCM(user.registrationToken, { 
                         title: 'Change of ownership',
-                        body: `${newSneaker.email} is now the owner of ${newSneaker.model} size ${newSneaker.size}US`,  
+                        body: `${user.email} is now the owner of ${newSneaker.model} size ${newSneaker.size}US`,  
                     });
                 }
                 resolve(203);
