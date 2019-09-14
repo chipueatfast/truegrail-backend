@@ -1,6 +1,6 @@
 # misc
 .idea
 .env
-contracts
+src/config/MinifiedTrueGrailTokenContract.json
 # dependencies
 node_modules
