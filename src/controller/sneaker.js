@@ -95,7 +95,7 @@ const addSneaker = async (req, res) => async (resolve, returnedValues) => {
 };
 
 const handleIssueEvent = async (req, res) => {
-    const result = await blockchainService.listenToEvent('Issue', {
+    const result = await blockchainService.listenToEventOnBlockchain('Issue', {
         _tokenId: req.body.id,
     }, await addSneaker(req, res));
     if (!result) {
@@ -105,7 +105,7 @@ const handleIssueEvent = async (req, res) => {
 }
 
 const handleTransferEvent = async (req, res) => {
-    const result = await blockchainService.listenToEvent('Transfer', {
+    const result = await blockchainService.listenToEventOnBlockchain('Transfer', {
         _tokenId: req.body.sneakerId,
         _to: req.body.newAddress,
     }, await changeOwnership(req, res));

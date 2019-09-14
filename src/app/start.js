@@ -6,4 +6,4 @@ require('@babel/register')({
 
 require('dotenv').load();
 
-module.exports = require('./app');
+module.exports = require('.');

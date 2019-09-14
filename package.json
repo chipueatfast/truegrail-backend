@@ -15,7 +15,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "node src/start",
+    "start": "node src/app/start",
     "watch": "npm-watch",
     "make-migration": "cd src/sequelize && makemigration",
     "run-migration": "cd src/sequelize && runmigration"
