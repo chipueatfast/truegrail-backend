@@ -30,7 +30,7 @@
       "arrow-parens": [2, "as-needed",{
         "requireForBlockBody": true
       }],
-      "arrow-body-style": [2, "as-needed"],
+      "arrow-body-style": [0, "as-needed"],
       "class-methods-use-this": 0,
       "comma-dangle": [2, "always-multiline"],
       "max-len": 0,

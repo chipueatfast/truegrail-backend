@@ -1,8 +1,8 @@
 import hash from 'object-hash';
 import { sequelize } from '~/sequelize/models';
-import DatabaseService from '~/service/database';
-import blockchainService from '~/service/blockchain';
-import { sendFCM } from '~/service/fcm';
+import DatabaseService from '~/utils/database';
+import blockchainService from '~/utils/blockchain';
+import { sendFCM } from '~/utils/fcm';
  
 const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
     console.log('Change ownership');

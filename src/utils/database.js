@@ -1,6 +1,6 @@
 import { sequelize } from '~/sequelize/models';
 
-const getRowBySingleValueAsync = (tableName, prop, value) =>  {
+const getRowBySingleValueAsync = (tableName, prop, value) => {
     return sequelize[tableName].find({
         where: {
             [prop]: value,

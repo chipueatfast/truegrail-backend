@@ -1,6 +1,6 @@
 import { sequelize } from '~/sequelize/models';
-import DatabaseService from '~/service/database';
-import BlockchainService from '~/service/blockchain';
+import DatabaseService from '~/utils/database';
+import BlockchainService from '~/utils/blockchain';
 
 
 const getContract = async (req, res) => {

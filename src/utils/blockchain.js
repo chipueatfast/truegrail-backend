@@ -1,6 +1,6 @@
 import TrueGrailToken from '~/contracts/MinifiedTrueGrailToken.json';
-import Web3 from 'web3';
 
+import Web3 from 'web3';
 import Tx from 'ethereumjs-tx';
 import { promisify } from 'util';
 

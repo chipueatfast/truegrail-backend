@@ -1,5 +1,5 @@
 import { sequelize } from '~/sequelize/models';
-import DatabaseService from '~/service/database';
+import DatabaseService from '~/utils/database';
 
 const getFactory = async (req, res) => {
     const {
