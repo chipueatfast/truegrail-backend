@@ -5,7 +5,6 @@ import blockchainService from '~/utils/blockchain';
 import { sendFCM } from '~/utils/fcm';
  
 const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
-    console.log('Change ownership');
     const retrieveUser = DatabaseService.getRowBySingleValueAsync('User', 
         'networkAddress', 
         req.body.newAddress.toLowerCase());
@@ -36,6 +35,18 @@ const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
     }
     resolve(400);
 }
+
+const addSneaker = async (req, res) => async (resolve, returnedValues) => {
+    try {
+        const newSneaker = await DatabaseService.createSingleRowAsync('Sneaker', req.body);
+        
+        if (newSneaker) {
+            resolve(201);
+        }
+    } catch (err) {
+        throw new Error(err);
+    }
+};
 
 const getSneaker = async (req, res) => {
     const sneaker = await DatabaseService.getRowBySingleValueAsync('Sneaker', 'id', req.params.id);
@@ -82,18 +93,6 @@ const getSneaker = async (req, res) => {
     return res.sendStatus(404);
 };
 
-const addSneaker = async (req, res) => async (resolve, returnedValues) => {
-    try {
-        const newSneaker = await DatabaseService.createSingleRowAsync('Sneaker', req.body);
-        
-        if (newSneaker) {
-            resolve(201);
-        }
-    } catch (err) {
-        throw new Error(err);
-    }
-};
-
 const handleIssueEvent = async (req, res) => {
     const result = await blockchainService.listenToEventOnBlockchain('Issue', {
         _tokenId: req.body.id,
@@ -121,5 +120,4 @@ export default {
     handleIssueEvent,
     getSneaker,
     handleTransferEvent,
-    // testPusher,
 };
