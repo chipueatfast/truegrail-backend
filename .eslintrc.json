@@ -16,7 +16,7 @@
       "__ENV__": true
     },
     "rules": {
-      "no-undef": 1,
+      "no-undef": 2,
       "no-underscore-dangle": [2, {
         "allow": ["__DEV__", "__ENV__"]
       }],
