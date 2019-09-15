@@ -9,7 +9,7 @@ language: node_js
 node_js: 8.10.0
 before_install:
 - openssl aes-256-cbc -K $encrypted_066bf32c081b_key -iv $encrypted_066bf32c081b_iv
-  -in id_rsa_travis_grail.enc -out ~\/.ssh/id_rsa_travis_grail -d
+  -in id_rsa_travis_grail.enc -out ./id_rsa_travis_grail -d
 - chmod u+x deploy.sh
 after_success:
 - echo $IP
