@@ -8,4 +8,4 @@ echo 'exit' | ssh -o StrictHostKeyChecking=no root@$IP
 cat ~/.ssh/known_hosts
 git config --global push.default simple # push only one branch at a time
 git remote add deploy root@$IP:$DEPLOY_DIR
-git push -f deploy master
+git push deploy master
