@@ -1,4 +1,4 @@
-import Pusher from 'pusher';
+import Pusher from '~/service/pusher';
 
 const pusher = new Pusher({
     appId: '775931',

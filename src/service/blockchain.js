@@ -1,4 +1,4 @@
-import TrueGrailToken from '~/config/MinifiedTrueGrailTokenContract.json';
+import TrueGrailToken from '~/config/TrueGrailToken.json';
 
 import Web3 from 'web3';
 import Tx from 'ethereumjs-tx';

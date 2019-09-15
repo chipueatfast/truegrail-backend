@@ -1,7 +1,7 @@
 import { sequelize } from '~/sequelize/models';
-import { generateHash } from '~/utils/encryption';
-import DatabaseService from '~/utils/database';
-import BlockchainService from '~/utils/blockchain';
+import { generateHash } from '~/service/encryption';
+import DatabaseService from '~/service/database';
+import BlockchainService from '~/service/blockchain';
 
 const register = async (req, res) => {
     const { password, email, networkAddress } = req.body;

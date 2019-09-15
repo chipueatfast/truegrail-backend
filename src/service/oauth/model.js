@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 import { sequelize } from '~/sequelize/models';
-import AuthenticationService from '~/utils/authentication';
-import DatabaseService from '~/utils/database';
+import AuthenticationService from '~/service/authentication';
+import DatabaseService from '~/service/database';
 
 export const getAccessToken = (accessToken) => {
     const verifiedToken = jwt.verify(accessToken, process.env.SECRET);
