@@ -1,5 +1,5 @@
 env:
-  - IP=128.199.134.167 PORT=80 DEPLOY_DIR=/usr/src/truegrail-backend
+- IP=128.199.134.167 PORT=80 DEPLOY_DIR=/usr/src/truegrail-backend
 addons:
   ssh_known_hosts: 128.199.134.167
 branches:
@@ -8,11 +8,9 @@ branches:
 language: node_js
 node_js: 8.10.0
 before_install:
-- openssl aes-256-cbc -K $encrypted_507e586d9e43_key -iv $encrypted_507e586d9e43_iv
-  -in id_rsa_travis_grail.enc -out ./id_rsa_travis_grail -d
+- openssl aes-256-cbc -K $encrypted_066bf32c081b_key -iv $encrypted_066bf32c081b_iv
+  -in id_rsa_travis_grail.enc -out ~\/.ssh/id_rsa_travis_grail -d
 - chmod u+x deploy.sh
 after_success:
-  - echo $IP
-  - sudo ./deploy.sh
-
-
+- echo $IP
+- sudo ./deploy.sh
