@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd $DEPLOY_DIR
+cd /usr/src/truegrail-backend
 git pull --ff >> ./deployment_log
 sudo kill $(lsof -t -i:2190) >> ./deployment_log
 yarn >> ./deployment_log
