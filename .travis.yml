@@ -14,4 +14,4 @@ before_install:
 - chmod u+x deploy.sh
 after_success:
 - echo $IP
-- sudo ./deploy/after_success.sh
+- sudo sh ./deploy/after_success.sh
