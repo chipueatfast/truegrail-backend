@@ -12,5 +12,4 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_066bf32c081b_key -iv $encrypted_066bf32c081b_iv
   -in id_rsa_travis_grail.enc -out ./id_rsa_travis_grail -d
 after_success:
-- echo $IP
 - sudo sh ./deploy/after_success.sh
