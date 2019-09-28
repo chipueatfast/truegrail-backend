@@ -18,7 +18,7 @@ const noAuthRequiredRoutes = [
     },
     {
         nest: 'user',
-    }
+    },
 ];
 
 export const checkNoAuthRequired = (url, method) => {

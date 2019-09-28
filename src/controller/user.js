@@ -16,6 +16,8 @@ const register = async (req, res) => {
 
     sequelize.User.create({
         ...req.body,
+        firstName: req.body.username,
+        lastName: '',
         passwordHash: hash,
     })
         .then(() => {
