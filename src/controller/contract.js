@@ -3,13 +3,13 @@ import DatabaseService from '~/service/database';
 import BlockchainService from '~/service/blockchain';
 
 
-const getTrueGrailTokenContractAbi = async (req, res) => {
-    const trueGrailTokenContractAbi = require('~/config/TrueGrailToken.json');
-    if (!trueGrailTokenContractAbi) {
+const getTrueGrailTokenContract = async (req, res) => {
+    const trueGrailTokenContract = require('~/config/TrueGrailToken.json');
+    if (!trueGrailTokenContract) {
         res.sendStatus(404);
         return;
     }
-    return res.send(trueGrailTokenContractAbi);
+    return res.send(trueGrailTokenContract);
 }
 
 const sendMoneyToMember = async(req, res) => {
@@ -23,6 +23,6 @@ const sendMoneyToMember = async(req, res) => {
 
 
 export default {
-    getTrueGrailTokenContractAbi,
+    getTrueGrailTokenContract,
     sendMoneyToMember,
 }

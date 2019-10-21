@@ -5,7 +5,7 @@ import {Request, Response} from "oauth2-server";
 import oauth from '~/service/oauth';
 import { checkNoAuthRequired } from '~/service/oauth/config';
 import { sequelize } from '~/sequelize/models';
-import { UserRoute, FactoryRoute, ContractRoute, SneakerRoute } from './route';
+import { UserRoute, FactoryRoute, ContractRoute, SneakerRoute } from './route/index';
 
 
 

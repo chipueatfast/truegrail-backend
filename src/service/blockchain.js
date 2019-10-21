@@ -9,9 +9,10 @@ const network = {
     production: 'ws://128.199.134.167:8545',
 }
 
+const networkId = 5777;
 
 const web3 = new Web3(network[process.env.NODE_ENV]);
-const contractInstance = new web3.eth.Contract(TrueGrailToken.abi, TrueGrailToken.address);
+const contractInstance = new web3.eth.Contract(TrueGrailToken.abi, TrueGrailToken.networks[networkId].address);
 
 export async function sendWei(toAddress) {
     const {
@@ -53,7 +54,7 @@ export async function listenToEventOnBlockchain(event, indexed, requestHandler) 
     // TODO: change the way of listening event;
     let hasConducted = false;
     return new Promise((resolve) => {
-        this.contractInstance.once(event, {
+        contractInstance.once(event, {
             filter: indexed,
         }, (err, event) => {
             // setTimeout(() => {

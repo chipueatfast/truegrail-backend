@@ -1,7 +1,7 @@
 import hash from 'object-hash';
 import { sequelize } from '~/sequelize/models';
 import DatabaseService from '~/service/database';
-import blockchainService from '~/service/blockchain';
+import { listenToEventOnBlockchain } from '~/service/blockchain';
 import { sendFCM } from '~/service/fcm';
  
 const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
@@ -94,7 +94,7 @@ const getSneaker = async (req, res) => {
 };
 
 const handleIssueEvent = async (req, res) => {
-    const result = await blockchainService.listenToEventOnBlockchain('Issue', {
+    const result = await listenToEventOnBlockchain('Issue', {
         _tokenId: req.body.id,
     }, await addSneaker(req, res));
     if (!result) {
@@ -104,7 +104,7 @@ const handleIssueEvent = async (req, res) => {
 }
 
 const handleTransferEvent = async (req, res) => {
-    const result = await blockchainService.listenToEventOnBlockchain('Transfer', {
+    const result = await listenToEventOnBlockchain('Transfer', {
         _tokenId: req.body.sneakerId,
         _to: req.body.newAddress,
     }, await changeOwnership(req, res));
