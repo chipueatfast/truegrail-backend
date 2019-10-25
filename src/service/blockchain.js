@@ -6,7 +6,7 @@ import { promisify } from 'util';
 
 const network = {
     development: 'ws://127.0.0.1:7545',
-    production: 'ws://128.199.134.167:8545',
+    production: 'ws://128.199.134.167:8546',
 }
 
 const networkId = 5777;
