@@ -11,7 +11,7 @@ const getFactory = async (req, res) => {
     const factory = await sequelize.Factory.find({
         where: {
             blockchainAddress: address,
-        }
+        },
     });
     if (!factory) {
         res.sendStatus(404);
