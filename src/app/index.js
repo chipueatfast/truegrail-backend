@@ -8,9 +8,12 @@ import { sequelize } from '~/sequelize/models';
 import { UserRoute, FactoryRoute, ContractRoute, SneakerRoute } from './route/index';
 
 
+import { getRowsOfOwnershipsTable } from '~/eos-controller';
+
 
 const app = Express();
 const port = process.env.PORT;
+
 
 app.oauth = oauth;
 

@@ -28,6 +28,7 @@
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
     "dotenv": "^6.2.0",
+    "eosjs": "^20.0.0",
     "ethereumjs-tx": "^2.1.1",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
