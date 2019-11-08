@@ -9,8 +9,18 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 const User = require('./user');
-const Factory = require('./factory');
 const Sneaker =  require('./sneaker');
+
+function initSequelize() {
+    sequelize
+        .authenticate()
+        .then(() => {
+            console.log('Connection has been established successfully');
+        })
+        .catch((err) => {
+            console.log('Unable to connect to database: ', err);
+        });
+}
 
 let sequelize;
 if (config.use_env_variable) {
@@ -49,10 +59,6 @@ mappingModels([
         def: User,
     },
     {
-        name: 'Factory',
-        def: Factory,
-    },
-    {
         name: 'Sneaker',
         def: Sneaker,
     },
@@ -61,5 +67,6 @@ mappingModels([
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.initSequelize = initSequelize;
 
 module.exports = db;

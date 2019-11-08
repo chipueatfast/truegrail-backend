@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'seller',
                 foreignKey: {
                     allowNull: false,
-                }
+                },
             });
     };
 

@@ -1,7 +1,9 @@
+import {Request, Response} from "oauth2-server";
 import { sequelize } from '~/sequelize/models';
 import { generateHash } from '~/service/encryption';
 import DatabaseService from '~/service/database';
 import BlockchainService from '~/service/blockchain';
+import oauth from '~/service/oauth/index';
 
 const register = async (req, res) => {
     const { password, email, networkAddress } = req.body;
@@ -37,12 +39,6 @@ const register = async (req, res) => {
             res.sendStatus(403);
         })
 };
-
-// for them next iteration
-const sendSaltAndHash = () => {
-
-};
-
 
 const retrievePublicInfo = (req, res) => {
     res.send('please work');
@@ -91,10 +87,22 @@ const getSneakerCollection = async (req, res) => {
     } catch {
         res.sendStatus(500);
     }
+}
 
+const signIn = async (req, res) => {
+    const request = new Request(req);
+    const response = new Response(res);
+    return oauth.token(request, response)
+        .then(function (token) {
+            res.json(token);
+        })
+        .catch(function (err) {
+            res.status(err.code || 500).json(err);
+        })
 }
 
 export default {
+    signIn,
     register,
     retrievePublicInfo,
     restoreAccountByNetworkAddress,

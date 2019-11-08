@@ -1,12 +1,17 @@
 import { Router } from 'express';
-import { FactoryController } from '~/controller';
+import { FactoryController } from '~/controller/index';
+import { RoleBasedMiddlewareGuard } from '~/middleware/index';
 
 
+const factoryRouterForCreator  = Router();
 const factoryRouter = Router();
 
 factoryRouter
-    .post('/', FactoryController.addFactory)
-    .get('/:address', FactoryController.getFactory);
+    .get('/:address/', FactoryController.getFactory);
 
-export default factoryRouter;
+factoryRouterForCreator
+    .use(RoleBasedMiddlewareGuard('creator'))
+    .post('/', FactoryController.addFactory);
+
+export default [factoryRouterForCreator, factoryRouter];
 

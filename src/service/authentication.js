@@ -1,7 +1,7 @@
 import { sequelize } from '~/sequelize/models';
 
 // for the blacklist implementation
-function saveRefreshToken(userId, refreshToken) {
+export function saveRefreshToken(userId, refreshToken) {
     return sequelize.User.findByPk(userId).then(
         (user) => {
             user.update({
@@ -11,27 +11,19 @@ function saveRefreshToken(userId, refreshToken) {
     )
 }
 
-function retrieveUserAuthInfo(username) {
+export function getPasswordHash(username) {
     return sequelize.User.find({
         where: {
             email: username,
         },
-    }).then(user => user ? ({
-        savedHash: user.passwordHash,
-    }) : null);
+    }).then(user => user ? user.passwordHash : null);
 }
 
-function retrieveUserPublicInfo(username) {
+export function getUserCredential(username) {
     return sequelize.User.find({
         where: {
             email: username,
         },
     }).then(user => user.serialize());
-}
-
-export default {
-    retrieveUserAuthInfo,
-    retrieveUserPublicInfo,
-    saveRefreshToken,
 }
 

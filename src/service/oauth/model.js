@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 import { sequelize } from '~/sequelize/models';
-import AuthenticationService from '~/service/authentication';
+import { saveRefreshToken, getPasswordHash, getUserCredential } from '~/service/authentication';
 import DatabaseService from '~/service/database';
 
 export const getAccessToken = (accessToken) => {
@@ -12,10 +12,6 @@ export const getAccessToken = (accessToken) => {
 };
 
 const saveToken = (token, client, user) => {
-
-    const {
-        saveRefreshToken,
-    } = AuthenticationService;
     const {
         refreshToken,
         accessTokenExpiresAt,
@@ -25,12 +21,14 @@ const saveToken = (token, client, user) => {
         firstName,
         lastName,
         email,
+        role,
     } = user;
     token.accessToken = jwt.sign({
         user: {
             firstName,
             lastName,
             email,
+            role,
         },
         accessTokenExpiresAt,
     }, process.env.SECRET);
@@ -67,25 +65,17 @@ const revokeToken = (token) => {
 };
 
 const getUser = async (username, password) => {
-    const {
-        retrieveUserAuthInfo,
-        retrieveUserPublicInfo,
-    } = AuthenticationService;
-    const authInfo = await retrieveUserAuthInfo(username);
-    if (authInfo) {
-        const {
-            savedHash,
-        } = authInfo;
+    const passwordHash = await getPasswordHash(username);
 
-        if (bcrypt.compareSync(password, savedHash)) {
-            return await retrieveUserPublicInfo(username);
-        }
+    if (bcrypt.compareSync(password, passwordHash)) {
+        return await getUserCredential(username);
     }
+
     return null;
 };
 
 const getClient = (clientId, clientSecret) => {
-    if (clientId === 'truegrailmobile' && clientSecret === 'secret') {
+    if (process.env.ALLOWED_CLIENT.includes(clientId) && clientSecret === 'secret') {
         return {
             grants: [
                 'password',
