@@ -43,8 +43,11 @@ const addFactoryV2 = async (req, res) => {
     const newFactory = await DatabaseService.createSingleRowAsync('User', {
         ...req.body,
         passwordHash: generatePasswordHash('1'),
+    }, {
+        email,
     });
-    if (newFactory) {
+
+    if (!newFactory.error) {
         const userHash = createCorrespondingUserHash({
             username,
             email,
@@ -63,6 +66,16 @@ const addFactoryV2 = async (req, res) => {
         res.status(201).json({
             id: newFactory.id,
         }).send();
+        return;
+    } else {
+        const {
+            error: {
+                statusCode,
+                message,
+            },
+        } = newFactory;
+        res.status(statusCode).json({message}).send();
+        return;
     }
     res.status(500).send();
 

@@ -8,7 +8,17 @@ const getRowBySingleValueAsync = (tableName, prop, value) => {
     })
 };
 
-const createSingleRowAsync = (tableName, rowData) => {
+const createSingleRowAsync = async (tableName, rowData, duplicateCondition) => {
+
+    if (!!duplicateCondition && await sequelize[tableName].find({
+        where: duplicateCondition,
+    })) {
+        return ({
+            error: {
+                statusCode: 400,
+                message: 'Duplicated entity',
+            }});
+    }
     return sequelize[tableName].create(rowData)
 }
 
