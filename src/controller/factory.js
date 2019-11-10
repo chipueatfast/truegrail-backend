@@ -4,6 +4,16 @@ import DatabaseService from '~/service/database';
 import { createCorrespondingUserHash, generatePasswordHash } from '~/service/encryption';
 import { executeSmartContractMethod } from '~/service/eos';
 
+const getFactories = async (req, res) => {
+    const rs = await sequelize.User.findAll({
+        attributes: ['email', 'username', 'address'],
+        where: {
+            role: 'factory',
+        },
+    });
+    res.json(rs).send();
+}
+
 const getFactory = async (req, res) => {
     const {
         params: {
@@ -24,13 +34,6 @@ const getFactory = async (req, res) => {
 }
 
 const addFactory = async (req, res) => {
-    const newFactory = await DatabaseService.createSingleRowAsync('Factory', req.body);
-    if (newFactory) {
-        res.sendStatus(201);
-    }
-}
-
-const addFactoryV2 = async (req, res) => {
     const {
         username,
         email,
@@ -82,7 +85,7 @@ const addFactoryV2 = async (req, res) => {
 }
 
 export default {
+    getFactories,
     getFactory,
     addFactory,
-    addFactoryV2,
 }

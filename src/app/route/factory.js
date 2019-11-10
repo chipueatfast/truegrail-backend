@@ -7,11 +7,12 @@ const factoryRouterForCreator  = Router();
 const factoryRouter = Router();
 
 factoryRouter
+    .get('/', FactoryController.getFactories)
     .get('/:address/', FactoryController.getFactory);
 
 factoryRouterForCreator
-    .use(RoleBasedMiddlewareGuard('creator'))
-    .post('/', FactoryController.addFactoryV2);
+    .post('/',RoleBasedMiddlewareGuard('creator'))
+    .post('/', FactoryController.addFactory);
 
 export default [factoryRouterForCreator, factoryRouter];
 
