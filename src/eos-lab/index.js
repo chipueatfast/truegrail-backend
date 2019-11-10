@@ -1,4 +1,4 @@
-import { Api, JsonRpc, RpcError } from 'eosjs';
+import Eos, { Api, JsonRpc } from 'eosjs';
 import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 import fetch from 'node-fetch';
 import { TextEncoder, TextDecoder } from 'util';
@@ -20,13 +20,31 @@ const api = new Api({
     textDecoder,
 });
 
-export async function getRowsOfOwnershipsTable(sneakerId) {
+export async function testContract() {
+    const config = {
+        keyProvider: ['5JRk3jnCWVVFfTonRRBA6DTLVbcFV4rqMP7YTcERp4ZyPRteZm3'],
+        httpEndpoint: 'http://127.0.0.1:8888',
+        expireInSeconds: 60,
+        broadcast: true,
+        verbose: false,
+        sign: true,
+    }
+    const eos = Eos(config);
+    const eosinfo = eos.getInfo((error, info) => {console.log(error, info);});
+        
+    // Promise
+    eos.getBlock(1)
+        .then(result => console.log(result))
+        .catch(error => console.error(error));
+}
+
+export async function getRowsOfOwnershipsTable() {
     const resp = await rpc.get_table_rows({
         json: true,
         code: 'truegrail2',
         scope: 'truegrail2',
         table: 'ownerships',
-        limit: 10,  
+        limit: 10,
     });
     console.log(resp);
     return resp.rows;

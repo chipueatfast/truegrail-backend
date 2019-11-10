@@ -4,7 +4,7 @@ import { UserController } from '~/controller/index';
 const userRouter = Router();
 
 userRouter
-    .all('/signin/', UserController.signIn)
+    .post('/signin/', UserController.signIn)
     .post('/', UserController.register)
     .get('/', UserController.retrievePublicInfo)
     .get('/ownership/:address/', UserController.getSneakerCollection)

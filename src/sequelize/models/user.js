@@ -18,13 +18,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        // this is for the user with role factory only
+        brand: DataTypes.STRING,
         refreshToken: DataTypes.STRING,
         registrationToken: DataTypes.STRING,
     }, {});
-
-    User.associate = function(models) {
-        // associations can be defined here
-    };
 
     User.prototype.serialize = function () {
         return {

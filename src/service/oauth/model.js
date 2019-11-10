@@ -18,15 +18,13 @@ const saveToken = (token, client, user) => {
     } = token;
     saveRefreshToken(user.id, refreshToken);
     const {
-        firstName,
-        lastName,
+        username,
         email,
         role,
+        address,
     } = user;
     token.accessToken = jwt.sign({
         user: {
-            firstName,
-            lastName,
             email,
             role,
         },
@@ -34,9 +32,10 @@ const saveToken = (token, client, user) => {
     }, process.env.SECRET);
     token.client = client;
     token.user = {
-        firstName,
-        lastName,
         email,
+        username,
+        role,
+        address,
     };
 
     return token;

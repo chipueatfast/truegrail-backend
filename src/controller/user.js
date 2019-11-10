@@ -1,6 +1,6 @@
 import {Request, Response} from "oauth2-server";
 import { sequelize } from '~/sequelize/models';
-import { generateHash } from '~/service/encryption';
+import { generatePasswordHash } from '~/service/encryption';
 import DatabaseService from '~/service/database';
 import BlockchainService from '~/service/blockchain';
 import oauth from '~/service/oauth/index';
@@ -14,7 +14,7 @@ const register = async (req, res) => {
         return;
     }
 
-    const hash = generateHash(password);
+    const hash = generatePasswordHash(password);
 
     sequelize.User.create({
         ...req.body,

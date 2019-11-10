@@ -11,7 +11,7 @@ factoryRouter
 
 factoryRouterForCreator
     .use(RoleBasedMiddlewareGuard('creator'))
-    .post('/', FactoryController.addFactory);
+    .post('/', FactoryController.addFactoryV2);
 
 export default [factoryRouterForCreator, factoryRouter];
 
