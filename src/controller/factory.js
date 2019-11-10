@@ -6,7 +6,7 @@ import { executeSmartContractMethod } from '~/service/eos';
 
 const getFactories = async (req, res) => {
     const rs = await sequelize.User.findAll({
-        attributes: ['id', 'email', 'username', 'address'],
+        attributes: ['id', 'email', 'username', 'address', 'brand'],
         where: {
             role: 'factory',
         },
