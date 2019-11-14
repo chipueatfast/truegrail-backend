@@ -1,3 +1,5 @@
+[DEPRECATED]
+
 # DETAIL on DEPLOYMENT
 
 Server address:
