@@ -1,10 +1,8 @@
-import { sequelize } from '~/sequelize/models';
-import DatabaseService from '~/service/database';
 import BlockchainService from '~/service/blockchain';
 
 
 const getTrueGrailTokenContract = async (req, res) => {
-    const trueGrailTokenContract = require('~/config/TrueGrailToken.json');
+    let trueGrailTokenContract;
     if (!trueGrailTokenContract) {
         res.sendStatus(404);
         return;

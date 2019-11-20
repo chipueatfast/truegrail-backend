@@ -1,18 +1,7 @@
-import TrueGrailToken from '~/config/TrueGrailToken.json';
-
-import Web3 from 'web3';
 import Tx from 'ethereumjs-tx';
 import { promisify } from 'util';
 
-const network = {
-    development: 'ws://127.0.0.1:7545',
-    production: 'ws://128.199.134.167:8546',
-}
-
-const networkId = 5777;
-
-const web3 = new Web3(network[process.env.NODE_ENV]);
-const contractInstance = new web3.eth.Contract(TrueGrailToken.abi, TrueGrailToken.networks[networkId].address);
+const contractInstance = null;
 
 export async function sendWei(toAddress) {
     const {
