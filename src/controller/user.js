@@ -1,43 +1,72 @@
 import {Request, Response} from "oauth2-server";
 import { sequelize } from '~/sequelize/models';
-import { generatePasswordHash } from '~/service/encryption';
+import { generatePasswordHash, createCorrespondingUserHash } from '~/service/encryption';
 import DatabaseService from '~/service/database';
-import BlockchainService from '~/service/blockchain';
 import oauth from '~/service/oauth/index';
+import { createNewEosAccount } from '~/service/eos';
 
 const register = async (req, res) => {
-    const { password, email, networkAddress } = req.body;
+    const {
+        username,
+        email,
+        address,
+        role,
+        brand,
+        publicKey,
+        encryptedPrivateKey,
+        password,
+    } = req.body;
 
     // check email existence
     if (await DatabaseService.getRowBySingleValueAsync('User', 'email', email)) {
         res.sendStatus(400);
         return;
     }
-
     const hash = generatePasswordHash(password);
 
-    sequelize.User.create({
-        ...req.body,
-        firstName: req.body.username,
-        lastName: '',
-        passwordHash: hash,
-    })
-        .then(() => {
-            // temporary
-            try {
-                BlockchainService.sendWei(networkAddress);
-            } catch(e) {
-                console.log(e);
-            }
-            
-            res.status(201).send({
-                passwordHash: hash,
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.sendStatus(403);
-        })
+    const newUser = await DatabaseService.createSingleRowAsync(
+        'User',
+        {
+            username,
+            email,
+            address,
+            role,
+            brand,
+            publicKey,
+            encryptedPrivateKey,
+            passwordHash: hash,
+        }, {
+            email,
+        }
+    );
+    if (newUser.error) {
+        const {
+            error: {
+                statusCode,
+                message,
+            },
+        } = newUser;
+        res.status(statusCode).json({message}).send();
+        return;
+    }
+
+    const newEosAccount = await createNewEosAccount(publicKey);
+    if (newEosAccount.error) {
+        res.status(500).json(newEosAccount.error).send();
+        return;
+    }
+    const {
+        eosName,
+    } = newEosAccount;
+    newUser.update({
+        eosName,
+    }).then();
+    res.status(201).json({
+        id: newUser.id,
+        eosName,
+    }).send();
+
+
 };
 
 const retrievePublicInfo = (req, res) => {

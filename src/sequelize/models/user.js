@@ -18,6 +18,20 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        eosName: {
+            type: DataTypes.STRING,
+        },
+        publicKey: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        encryptedPrivateKey: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        isBlockchainSynced: {
+            type: DataTypes.BOOLEAN,
+        },
         // this is for the user with role factory only
         brand: DataTypes.STRING,
         refreshToken: DataTypes.STRING,

@@ -15,10 +15,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "node src/app/start",
+    "start": "yarn kill | node src/app/start",
     "watch": "npm-watch",
     "make-migration": "cd src/sequelize && makemigration",
-    "run-migration": "cd src/sequelize && runmigration"
+    "run-migration": "cd src/sequelize && runmigration",
+    "kill": "sudo kill $(lsof -t -i:2190)"
   },
   "author": "",
   "license": "ISC",

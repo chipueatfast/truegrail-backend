@@ -4,6 +4,7 @@ import { initSequelize } from '~/sequelize/models/index';
 import { UserRoute, FactoryRoute, ContractRoute, SneakerRoute } from './route/index';
 import { CORSPolicyGuard } from '~/middleware/index';
 
+
 const app = Express();
 const port = process.env.PORT;
 

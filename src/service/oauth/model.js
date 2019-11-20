@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-
-import { sequelize } from '~/sequelize/models';
 import { saveRefreshToken, getPasswordHash, getUserCredential } from '~/service/authentication';
 import DatabaseService from '~/service/database';
 
@@ -22,6 +20,8 @@ const saveToken = (token, client, user) => {
         email,
         role,
         address,
+        encryptedPrivateKey,
+        eosName,
     } = user;
     token.accessToken = jwt.sign({
         user: {
@@ -36,6 +36,8 @@ const saveToken = (token, client, user) => {
         username,
         role,
         address,
+        encryptedPrivateKey,
+        eosName,
     };
 
     return token;
@@ -65,7 +67,6 @@ const revokeToken = (token) => {
 
 const getUser = async (username, password) => {
     const passwordHash = await getPasswordHash(username);
-
     if (bcrypt.compareSync(password, passwordHash)) {
         return await getUserCredential(username);
     }

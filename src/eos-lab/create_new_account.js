@@ -41,7 +41,7 @@ function generateRandomEosAccountName() {
     return result;
 }
  
-export async function createNewAccount(publicKey) {
+export async function createNewEosAccount(publicKey) {
     try  {
         const randomValidEosAccountName = generateRandomEosAccountName();
         const receipt = await api.transact({
