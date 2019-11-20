@@ -1,7 +1,6 @@
 # misc
 .idea
 .env
-src/config/TrueGrailToken.json
 # dependencies
 node_modules
 deployment_log
