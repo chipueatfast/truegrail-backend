@@ -5,6 +5,7 @@ echo '------------------------' $(date) '-----------------------' >> ./deploymen
 sudo chsh --shell=/bin/bash
 eval "$(ssh-agent -s)" >> ./deployment_log 2>&1 # start ssh-agent cache
 nvm use 10.16.0
+echo $0
 node --version
 ssh-add ~/.ssh/truegrail_backend_deploy_key >> ./deployment_log 2>&1
 git pull --ff >> ./deployment_log 2>&1
