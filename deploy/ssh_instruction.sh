@@ -2,7 +2,6 @@
 
 cd /usr/src/truegrail-backend
 echo '------------------------' $(date) '-----------------------' >> ./deployment_log
-sudo chsh --shell=/bin/bash
 eval "$(ssh-agent -s)" >> ./deployment_log 2>&1 # start ssh-agent cache
 nvm use 10.16.0
 echo $0
