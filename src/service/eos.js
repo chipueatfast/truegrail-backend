@@ -3,7 +3,7 @@ import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 import fetch from 'node-fetch';
 import { TextEncoder, TextDecoder } from 'util';
 
-const defaultPrivateKey = process.env.EOSIO_PRIVATE_KEY; // eosio
+const defaultPrivateKey = process.env.GENACCOUNT_PRIVATE_KEY; // eosio
 
 const signatureProvider = new JsSignatureProvider([defaultPrivateKey]);
 const textDecoder = new TextDecoder();
@@ -43,67 +43,21 @@ function generateRandomEosAccountName() {
     return result;
 }
 
-export async function getRecordFromTableByKey({
-    table,
-    tableKey,
-}) {
-    return rpc.get_table_rows({
-        json: true,
-        code: 'truegrail2',
-        scope: 'truegrail2',
-        table,
-        table_key: tableKey,
-    });
-}
-
-// export async function executeSmartContractMethod({
-//     method,
-//     namedParams,
-// }) {
-//     try {
-//         const rs = await api.transact({
-//             actions: [
-//                 {
-//                     account: 'truegrail2',
-//                     name: method,
-//                     authorization: [
-//                         {
-//                             actor: 'truegrail2',
-//                             permission: 'active',
-//                         },
-//                     ],
-//                     data: namedParams,
-//                 }]}, {
-//             blocksBehind: 3,
-//             expireSeconds: 30,
-//         });
-//         console.log('response ne: ', rs);
-//     } catch (e) {
-//         console.log('\nCaught exception: ' + e);
-//         if (e instanceof RpcError) {
-//             console.log(JSON.stringify(e.json, null, 2));
-//             return {
-//                 error: e.json,
-//             }
-//         }   
-//     }
-// }
-
 export async function createNewEosAccount(publicKey) {
     try  {
         const randomValidEosAccountName = generateRandomEosAccountName();
         await api.transact({
             actions: [{
-                account: 'eosio',
+                account: process.env.GENACCOUNT_NAME,
                 name: 'newaccount',
                 authorization: [
                     {
-                        actor: 'eosio',
+                        actor: process.env.GENACCOUNT_NAME,
                         permission: 'active',
                     },
                 ],
                 data: {
-                    creator: 'eosio',
+                    creator: process.env.GENACCOUNT_NAME,
                     name: randomValidEosAccountName,
                     owner: basicPermissionConfiguration(publicKey),
                     active: basicPermissionConfiguration(publicKey),
