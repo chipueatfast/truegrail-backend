@@ -48,7 +48,7 @@ export async function createNewEosAccount(publicKey) {
         const randomValidEosAccountName = generateRandomEosAccountName();
         await api.transact({
             actions: [{
-                account: process.env.GENACCOUNT_NAME,
+                account: 'eosio',
                 name: 'newaccount',
                 authorization: [
                     {
@@ -62,12 +62,27 @@ export async function createNewEosAccount(publicKey) {
                     owner: basicPermissionConfiguration(publicKey),
                     active: basicPermissionConfiguration(publicKey),
                 },
-            }],
+            },
+            {
+                account: 'eosio',
+                name: 'buyrambytes',
+                authorization: [{
+                    actor: process.env.GENACCOUNT_NAME,
+                    permission: 'active',
+                }],
+                data: {
+                    payer: process.env.GENACCOUNT_NAME,
+                    receiver: randomValidEosAccountName,
+                    bytes: 8192,
+                },
+            },
+            ],
         }, {
             blocksBehind: 3,
             expireSeconds: 30,
             broadcast: true,
         });
+        console.log('no error');
         return {
             eosName: randomValidEosAccountName,
         };
@@ -77,10 +92,11 @@ export async function createNewEosAccount(publicKey) {
                 error: e.json,
             };
             console.log(JSON.stringify(e.json, null, 2));
-            return {
-                error: {
-                    message: e.message,
-                },
-            }
-        }};
+        }
+        return {
+            error: {
+                message: e.message,
+            },
+        }
+    };
 };
