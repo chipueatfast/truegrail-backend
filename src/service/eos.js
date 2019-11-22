@@ -77,5 +77,10 @@ export async function createNewEosAccount(publicKey) {
                 error: e.json,
             };
             console.log(JSON.stringify(e.json, null, 2));
-        }}
+            return {
+                error: {
+                    message: e.message,
+                },
+            }
+        }};
 };

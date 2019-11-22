@@ -1,6 +1,6 @@
 import {Request, Response} from "oauth2-server";
 import { sequelize } from '~/sequelize/models';
-import { generatePasswordHash, createCorrespondingUserHash } from '~/service/encryption';
+import { generatePasswordHash } from '~/service/encryption';
 import DatabaseService from '~/service/database';
 import oauth from '~/service/oauth/index';
 import { createNewEosAccount } from '~/service/eos';
