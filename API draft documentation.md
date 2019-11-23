@@ -16,7 +16,7 @@
     publicKey: "EOS5GCFnwT7Xd8yxDjnaPHXwhMyU67fdtyg64vZy4c8tZsPkGbheR",
     role: "factory",
     username: "domuqibo",
-    eosName: "truegrailacc",
+    eosName: "dge14315dbde",
 }
 ```
 
@@ -24,7 +24,6 @@
 
 ```json
 {
-    eosName: "dge14315dbde",
     id: 75,
 }
 ```

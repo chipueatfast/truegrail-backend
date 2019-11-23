@@ -59,7 +59,6 @@ const register = async (req, res) => {
     }).then();
     res.status(201).json({
         id: newUser.id,
-        eosName,
     }).send();
 
 
