@@ -8,5 +8,6 @@ echo $0
 node --version
 ssh-add ~/.ssh/truegrail_backend_deploy_key >> ./deployment_log 2>&1
 git pull --ff >> ./deployment_log 2>&1
+forever stop 0
 sudo kill $(lsof -t -i:2190) >> ./deployment_log 2>&1
 exit

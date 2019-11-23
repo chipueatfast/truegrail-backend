@@ -82,7 +82,6 @@ export async function createNewEosAccount(publicKey) {
             expireSeconds: 30,
             broadcast: true,
         });
-        console.log('no error');
         return {
             eosName: randomValidEosAccountName,
         };
@@ -91,7 +90,6 @@ export async function createNewEosAccount(publicKey) {
             return {
                 error: e.json,
             };
-            console.log(JSON.stringify(e.json, null, 2));
         }
         return {
             error: {
