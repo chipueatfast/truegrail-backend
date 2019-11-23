@@ -15,13 +15,9 @@ const register = async (req, res) => {
         publicKey,
         encryptedPrivateKey,
         password,
+        eosName,
     } = req.body;
 
-    // check email existence
-    if (await DatabaseService.getRowBySingleValueAsync('User', 'email', email)) {
-        res.sendStatus(400);
-        return;
-    }
     const hash = generatePasswordHash(password);
 
     const newUser = await DatabaseService.createSingleRowAsync(
@@ -50,14 +46,14 @@ const register = async (req, res) => {
         return;
     }
 
-    const newEosAccount = await createNewEosAccount(publicKey);
+    const newEosAccount = await createNewEosAccount({
+        publicKey,
+        eosName,
+    });
     if (newEosAccount.error) {
         res.status(500).json(newEosAccount.error).send();
         return;
     }
-    const {
-        eosName,
-    } = newEosAccount;
     newUser.update({
         eosName,
     }).then();

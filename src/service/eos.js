@@ -33,20 +33,11 @@ function basicPermissionConfiguration(publicKey) {
     };
 }
 
-function generateRandomEosAccountName() {
-    let result = '';
-    const length = 12;
-    const characters = '12345abcdefghijklmnopqrstuvwxyz';
-    for (let i=0; i<length; i++) {
-        const randomIndex = Math.floor(Math.random() * length);
-        result += characters.charAt(randomIndex);
-    }
-    return result;
-}
-
-export async function createNewEosAccount(publicKey) {
+export async function createNewEosAccount({
+    publicKey,
+    eosName,
+}) {
     try  {
-        const randomValidEosAccountName = generateRandomEosAccountName();
         const actions = [
             {
                 account: 'eosio',
@@ -59,7 +50,7 @@ export async function createNewEosAccount(publicKey) {
                 ],
                 data: {
                     creator: process.env.GENACCOUNT_NAME,
-                    name: randomValidEosAccountName,
+                    name: eosName,
                     owner: basicPermissionConfiguration(publicKey),
                     active: basicPermissionConfiguration(publicKey),
                 },
@@ -75,7 +66,7 @@ export async function createNewEosAccount(publicKey) {
                 }],
                 data: {
                     payer: process.env.GENACCOUNT_NAME,
-                    receiver: randomValidEosAccountName,
+                    receiver: eosName,
                     bytes: 8192,
                 },
             });
@@ -88,7 +79,7 @@ export async function createNewEosAccount(publicKey) {
             broadcast: true,
         });
         return {
-            eosName: randomValidEosAccountName,
+            eosName: eosName,
         };
     } catch (e) {
         if (e instanceof RpcError) {
