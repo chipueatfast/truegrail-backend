@@ -16,6 +16,7 @@
     publicKey: "EOS5GCFnwT7Xd8yxDjnaPHXwhMyU67fdtyg64vZy4c8tZsPkGbheR",
     role: "factory",
     username: "domuqibo",
+    eosName: "truegrailacc",
 }
 ```
 
@@ -30,8 +31,9 @@
 
 ## Sign In
 
--   url: `/user/`
+-   url: `/user/signin/`
 -   method: `POST`
+- *use basic auth*
 -   body: url-formencoded
 ```url-formencoded
     grant_type: password
