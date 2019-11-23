@@ -2,6 +2,7 @@ import { Api, JsonRpc, RpcError } from 'eosjs';
 import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 import fetch from 'node-fetch';
 import { TextEncoder, TextDecoder } from 'util';
+import { isProduction } from '~/util/environment';
 
 const defaultPrivateKey = process.env.GENACCOUNT_PRIVATE_KEY; // eosio
 
@@ -46,8 +47,8 @@ function generateRandomEosAccountName() {
 export async function createNewEosAccount(publicKey) {
     try  {
         const randomValidEosAccountName = generateRandomEosAccountName();
-        await api.transact({
-            actions: [{
+        const actions = [
+            {
                 account: 'eosio',
                 name: 'newaccount',
                 authorization: [
@@ -63,7 +64,9 @@ export async function createNewEosAccount(publicKey) {
                     active: basicPermissionConfiguration(publicKey),
                 },
             },
-            {
+        ];
+        if (isProduction()) {
+            actions.push({
                 account: 'eosio',
                 name: 'buyrambytes',
                 authorization: [{
@@ -75,8 +78,10 @@ export async function createNewEosAccount(publicKey) {
                     receiver: randomValidEosAccountName,
                     bytes: 8192,
                 },
-            },
-            ],
+            });
+        }
+        await api.transact({
+            actions,
         }, {
             blocksBehind: 3,
             expireSeconds: 30,

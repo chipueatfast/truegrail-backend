@@ -6,7 +6,7 @@ const getFactories = async (req, res) => {
             role: 'factory',
         },
     });
-    res.json({
+    return res.json({
         factories: rs,
     }).send();
 }
@@ -30,7 +30,7 @@ const getFactory = async (req, res) => {
     res.send(factory);
 }
 
-const addFactory = async (req, res) => {
+const addFactory = async () => {
 }
 
 export default {
