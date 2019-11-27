@@ -18,6 +18,19 @@ const register = async (req, res) => {
         eosName,
     } = req.body;
 
+    if (
+        !(
+            password &&
+            username &&
+            email &&
+            role &&
+            publicKey &&
+            eosName &&
+            encryptedPrivateKey
+        )) {
+        return res.status(400).send();
+    }
+
     const hash = generatePasswordHash(password);
 
     const newUser = await DatabaseService.createSingleRowAsync(
