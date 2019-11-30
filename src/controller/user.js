@@ -86,8 +86,10 @@ const updateUserInfo = async (req, res) => {
         address,
     } = req.body;
     const existing = await sequelize.User.findOne({
-        id: userId,
-        role: 'collector',
+        where: {
+            id: userId,
+            role: 'collector',
+        },
     });
     if (!existing) {
         return res.status(400).send();

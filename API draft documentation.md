@@ -65,9 +65,21 @@
 ## Update User info
 
 -   url: `/user/collector/:userId/`
+
+```
+    /user/collector/77/
+```
+
 -   method: `patch`
 -   body: 
     {
         username,
         address,
     }
+
+```json
+{
+	"username": "Long An Lau",
+	"address": "Nha be"
+}
+```
