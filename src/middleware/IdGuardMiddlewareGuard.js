@@ -1,4 +1,4 @@
-import { decodeAccessToken } from '~/util/encryption';
+import { decodeAccessToken } from '~/service/encryption';
 
 
 const IdGuardMiddleware = idParamName => (req, res, next) => {
