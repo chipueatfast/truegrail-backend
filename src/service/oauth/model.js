@@ -67,10 +67,10 @@ const revokeToken = (token) => {
     return true;
 };
 
-const getUser = async (username, password) => {
-    const passwordHash = await getPasswordHash(username);
+const getUser = async (userIdentity, password) => {
+    const passwordHash = await getPasswordHash(userIdentity);
     if (bcrypt.compareSync(password, passwordHash)) {
-        return await getUserCredential(username);
+        return await getUserCredential(userIdentity);
     }
 
     return null;

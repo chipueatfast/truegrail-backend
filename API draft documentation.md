@@ -61,3 +61,13 @@
 }
 
 ```
+
+## Update User info
+
+-   url: `/user/collector/:userId/`
+-   method: `patch`
+-   body: 
+    {
+        username,
+        address,
+    }
