@@ -79,12 +79,14 @@ const register = async (req, res) => {
 
 const updateUserInfo = async (req, res) => {
     const {
-        id,
+        userId,
+    } = req.params;
+    const {
         username,
         address,
     } = req.body;
     const existing = await sequelize.User.findOne({
-        id,
+        id: userId,
         role: 'collector',
     });
     if (!existing) {
