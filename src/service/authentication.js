@@ -11,18 +11,18 @@ export function saveRefreshToken(userId, refreshToken) {
     )
 }
 
-export function getPasswordHash(username) {
+export function getPasswordHash(userIdentity) {
     return sequelize.User.find({
         where: {
-            email: username,
+            userIdentity,
         },
     }).then(user => user ? user.passwordHash : null);
 }
 
-export function getUserCredential(username) {
+export function getUserCredential(userIdentity) {
     return sequelize.User.find({
         where: {
-            email: username,
+            userIdentity,
         },
     }).then(user => user.serialize());
 }

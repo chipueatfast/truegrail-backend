@@ -8,7 +8,8 @@ userRouter
     .post('/', UserController.register)
     .get('/', UserController.retrievePublicInfo)
     .get('/ownership/:address/', UserController.getSneakerCollection)
-    .patch('/restoration/:networkAddress/', UserController.restoreAccountByNetworkAddress);
+    .patch('/restoration/:networkAddress/', UserController.restoreAccountByNetworkAddress)
+    .patch('/', UserController.updateUserInfo);
 
 export default userRouter;
 

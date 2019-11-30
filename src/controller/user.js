@@ -8,7 +8,7 @@ import { createNewEosAccount } from '~/service/eos';
 const register = async (req, res) => {
     const {
         username,
-        email,
+        userIdentity,
         address,
         role,
         brand,
@@ -22,7 +22,7 @@ const register = async (req, res) => {
         !(
             password &&
             username &&
-            email &&
+            userIdentity &&
             role &&
             publicKey &&
             eosName &&
@@ -37,7 +37,7 @@ const register = async (req, res) => {
         'User',
         {
             username,
-            email,
+            userIdentity,
             address,
             role,
             brand,
@@ -45,7 +45,7 @@ const register = async (req, res) => {
             encryptedPrivateKey,
             passwordHash: hash,
         }, {
-            email,
+            userIdentity,
         }
     );
     if (newUser.error) {
@@ -76,6 +76,29 @@ const register = async (req, res) => {
 
 
 };
+
+const updateUserInfo = async (req, res) => {
+    const {
+        id,
+        username,
+        address,
+    } = req.body;
+    const existing = await sequelize.User.findOne({
+        id,
+        role: 'collector',
+    });
+    if (!existing) {
+        return res.status(400).send();
+    }
+    const updatedUser = await existing.update({
+        username,
+        address,
+    });
+    if (updatedUser) {
+        return res.status(204).send();
+    }
+    return res.status(500).send();
+}
 
 const retrievePublicInfo = (req, res) => {
     res.send('please work');
@@ -144,4 +167,5 @@ export default {
     retrievePublicInfo,
     restoreAccountByNetworkAddress,
     getSneakerCollection,
+    updateUserInfo,
 }
