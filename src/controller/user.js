@@ -90,6 +90,11 @@ const register = async (req, res) => {
             publicKey,
             encryptedPrivateKey,
             passwordHash: hash,
+            ...(role === 'collector' ? {
+                phone: userIdentity,
+            } : {
+                email: userIdentity,
+            }),
         }, {
             userIdentity,
         }
@@ -142,6 +147,7 @@ const updateUserInfo = async (req, res) => {
     const {
         username,
         address,
+        email,
     } = req.body;
     const existing = await sequelize.User.findOne({
         where: {
@@ -155,6 +161,7 @@ const updateUserInfo = async (req, res) => {
     const updatedUser = await existing.update({
         username,
         address,
+        email,
     });
     if (updatedUser) {
         return res.status(204).send();
