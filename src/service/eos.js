@@ -72,6 +72,21 @@ export async function createNewEosAccount({
                     bytes: 8192,
                 },
             });
+            actions.push({
+                account: 'eosio',
+                name: 'delegatebw',
+                authorization: [{
+                    actor: process.env.GENACCOUNT_NAME,
+                    permission: 'active',
+                }],
+                data: {
+                    from: process.env.GENACCOUNT_NAME,
+                    receiver: eosName,
+                    stake_net_quantity: '1.0000 EOS',
+                    stake_cpu_quantity: '1.0000 EOS',
+                    transfer: false,
+                },
+            });
         }
         await api.transact({
             actions,
