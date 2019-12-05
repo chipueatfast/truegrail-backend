@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         address: {
             type: DataTypes.STRING,
-            allowNull: false,
         },
         eosName: {
             type: DataTypes.STRING,

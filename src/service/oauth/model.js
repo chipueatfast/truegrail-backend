@@ -23,6 +23,7 @@ const saveToken = (token, client, user) => {
         address,
         encryptedPrivateKey,
         eosName,
+        publicKey,
     } = user;
     token.accessToken = jwt.sign({
         user: {
@@ -37,6 +38,7 @@ const saveToken = (token, client, user) => {
         id,
         email,
         username,
+        publicKey,
         role,
         address,
         encryptedPrivateKey,

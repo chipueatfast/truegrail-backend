@@ -5,6 +5,7 @@ import { IdGuardMiddlewareGuard, OauthMiddlewareGuard } from '~/middleware/index
 const userRouter = Router();
 
 userRouter
+    .get('/duplicate/', UserController.getIsUserIdExisting)
     .post('/signin/', UserController.signIn)
     .post('/', UserController.register)
     .get('/', UserController.retrievePublicInfo)

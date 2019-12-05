@@ -4,6 +4,8 @@ import fetch from 'node-fetch';
 import { TextEncoder, TextDecoder } from 'util';
 import { isProduction } from '~/util/environment';
 
+const smartContractName = isProduction() ? 'truegrail123' : 'truegrail2';
+
 const defaultPrivateKey = process.env.GENACCOUNT_PRIVATE_KEY; // eosio
 
 const signatureProvider = new JsSignatureProvider([defaultPrivateKey]);
@@ -94,3 +96,40 @@ export async function createNewEosAccount({
         }
     };
 };
+
+export async function executeSmartContractMethod({
+    method, 
+    namedParams,
+}) {
+    try {
+        await api.transact({
+            actions: [
+                {
+                    account: smartContractName,
+                    name: method,
+                    authorization: [
+                        {
+                            actor: process.env.GENACCOUNT_NAME,
+                            permission: 'active',
+                        },
+                    ],
+                    data: namedParams,
+                }]}, {
+            blocksBehind: 3,
+            expireSeconds: 30,
+        });
+        return {};
+    } catch (e) {
+        console.log('\nCaught exception: ' + e);
+        if (e instanceof RpcError) {
+            console.log(JSON.stringify(e.json, null, 2));
+            return {
+                error: e.json,
+            }
+        }
+        return {
+            error: e.message,
+        }
+    }
+
+}
