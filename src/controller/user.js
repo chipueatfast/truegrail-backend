@@ -124,11 +124,11 @@ const register = async (req, res) => {
                 message: 'can not add to multi index',
             });
         }
-        
-        await newUser.update({
-            isBlockchainSynced: true,
-        })
     }
+
+    await newUser.update({
+        isBlockchainSynced: true,
+    })
 
     newUser.update({
         eosName,
