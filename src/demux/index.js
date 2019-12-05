@@ -8,7 +8,7 @@ import handlerVersion from './handlerVersions/v1/index';
 
 
 export function watchEosBlockchain() {
-    console.log('eos');
+    console.log(`listening eos blockchain ${process.env.NODEOS_URL}`)
     const actionHandler = new EosActionHandler([handlerVersion])
     const actionReader = new NodeosActionReader({
         startAtBlock: 0,

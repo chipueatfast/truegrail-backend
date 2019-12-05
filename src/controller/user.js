@@ -3,7 +3,44 @@ import { sequelize } from '~/sequelize/models';
 import { generatePasswordHash } from '~/service/encryption';
 import DatabaseService from '~/service/database';
 import oauth from '~/service/oauth/index';
-import { createNewEosAccount } from '~/service/eos';
+import { createNewEosAccount, executeSmartContractMethod } from '~/service/eos';
+
+
+const getIsUserIdExisting = async (req, res) => {
+    const {
+        userIdentity,
+    } = req.query;
+
+    const existing = await sequelize.User.findOne({
+        where: {
+            userIdentity,
+        },
+    });
+    
+    return res.send({
+        isExisting: !!existing,
+    });
+}
+
+async function addCollectorToEosTableUser({
+    id,
+    eosName,
+}) {
+    const rs = await executeSmartContractMethod({
+        namedParams: {
+            user_id: id,
+            eos_name: eosName,
+            user_info_hash: '',
+            role: 'collector',
+        },
+        method: 'insertuser',
+    });
+
+    if (rs.error) {
+        return false;
+    }
+    return true;
+}
 
 const register = async (req, res) => {
     const {
@@ -21,7 +58,6 @@ const register = async (req, res) => {
     if (
         !(
             password &&
-            username &&
             userIdentity &&
             role &&
             publicKey &&
@@ -29,6 +65,16 @@ const register = async (req, res) => {
             encryptedPrivateKey
         )) {
         return res.status(400).send();
+    }
+
+    const newEosAccount = await createNewEosAccount({
+        publicKey,
+        eosName,
+    });
+
+    if (newEosAccount.error) {
+        res.status(500).json(newEosAccount.error).send();
+        return;
     }
 
     const hash = generatePasswordHash(password);
@@ -44,6 +90,11 @@ const register = async (req, res) => {
             publicKey,
             encryptedPrivateKey,
             passwordHash: hash,
+            ...(role === 'collector' ? {
+                phone: userIdentity,
+            } : {
+                email: userIdentity,
+            }),
         }, {
             userIdentity,
         }
@@ -59,14 +110,26 @@ const register = async (req, res) => {
         return;
     }
 
-    const newEosAccount = await createNewEosAccount({
-        publicKey,
-        eosName,
-    });
-    if (newEosAccount.error) {
-        res.status(500).json(newEosAccount.error).send();
-        return;
+    const {
+        id,
+    } = newUser;
+
+    if (role === 'collector') {
+        const rs =  await addCollectorToEosTableUser({
+            id,
+            eosName,
+        });
+        if (!rs) {
+            return res.status(500).send({
+                message: 'can not add to multi index',
+            });
+        }
+        
+        await newUser.update({
+            isBlockchainSynced: true,
+        })
     }
+
     newUser.update({
         eosName,
     }).then();
@@ -84,6 +147,7 @@ const updateUserInfo = async (req, res) => {
     const {
         username,
         address,
+        email,
     } = req.body;
     const existing = await sequelize.User.findOne({
         where: {
@@ -97,6 +161,8 @@ const updateUserInfo = async (req, res) => {
     const updatedUser = await existing.update({
         username,
         address,
+        email,
+        isBlockchainSynced: false,
     });
     if (updatedUser) {
         return res.status(204).send();
@@ -172,4 +238,5 @@ export default {
     restoreAccountByNetworkAddress,
     getSneakerCollection,
     updateUserInfo,
+    getIsUserIdExisting,
 }

@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import { initSequelize } from '~/sequelize/models/index';
 import { UserRoute, FactoryRoute, ContractRoute, SneakerRoute } from './route/index';
 import { CORSPolicyGuard } from '~/middleware/index';
-import { watchEosBlockchain } from'~/service/demux/index';
+import { watchEosBlockchain } from'~/demux/index';
 
 
 const app = Express();

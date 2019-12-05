@@ -3,7 +3,6 @@ import { isProduction } from '~/util/environment';
 
 const truegrailSmartContract = isProduction() ? 'truegrail123' : 'truegrail2';
 
-console.log(truegrailSmartContract);
 
 const updaters = [
     {
