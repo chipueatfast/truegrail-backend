@@ -1,9 +1,11 @@
 import { userEffects, userUpdaters } from './user';
+import { sneakerUpdaters } from './sneaker';
 
 
 
 const updaters = [
     ...userUpdaters,
+    ...sneakerUpdaters,
 ];
 
 const effects = [

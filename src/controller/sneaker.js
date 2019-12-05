@@ -35,28 +35,85 @@ import { createNewEosAccount } from '~/service/eos';
 //     resolve(400);
 // }
 
-const createSneakerClaimAccount = async (req, res) => {
-    const {
-        claimPublicKey,
-        claimEosName,
-    } = req.body;
 
-    if (!claimPublicKey || !claimEosName) {
-        return res.status(400).send({
-            message: 'not_filled',
-        })
-    }
-
+async function createSneakerClaimAccount({
+    claimPublicKey,
+    claimEosName,
+}) {
     const claimAccount = await createNewEosAccount({
         publicKey: claimPublicKey,
         eosName: claimEosName,
     });
 
     if (claimAccount.error) {
-        return res.status(500).send();
+        return [claimAccount.error];
     }
 
-    return res.status(201).send(claimAccount);
+    return [null, claimAccount];
+}
+
+const issueSneaker = async (req, res) => {
+    const {
+        factoryId,
+    } = req.params;
+    const {
+        id,
+        claimEosName,
+        claimPublicKey,
+        model,
+        limitedEdition,
+        brand,
+        colorway,
+        size,
+        releaseDate,
+    } = req.body;
+
+
+    if (!(claimEosName &&
+        claimPublicKey &&
+        model &&
+        brand &&
+        colorway &&
+        size &&
+        releaseDate
+    )) {
+        return res.status(400).send({
+            message: 'not_fulfilled',
+        })
+    }
+    const [err] = await createSneakerClaimAccount({
+        claimEosName,
+        claimPublicKey,
+    });
+    if (err) {
+        return res.send(500).send(err);
+    }
+    const newSneaker = await DatabaseService.createSingleRowAsync(
+        'Sneaker',
+        {
+            id,
+            model,
+            limitedEdition,
+            brand,
+            factoryId,
+            colorway,
+            size,
+            releaseDate,
+        }, {
+            id,
+        }
+    );
+    if (newSneaker.error) {
+        const {
+            error: {
+                statusCode,
+                message,
+            },
+        } = newSneaker;
+        res.status(statusCode).json({message}).send();
+        return;
+    };
+    return res.status(201).send();
 }
 
 // const addSneaker = async (req, res) => async (resolve, returnedValues) => {
@@ -141,5 +198,5 @@ const getSneaker = async (req, res) => {
 
 export default {
     getSneaker,
-    createSneakerClaimAccount,
+    issueSneaker,
 };

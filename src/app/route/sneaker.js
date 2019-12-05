@@ -7,8 +7,8 @@ const sneakerRouter = Router();
 sneakerRouter
     .get('/:id/', SneakerController.getSneaker)
     .use('/eos/', OauthMiddlewareGuard)
-    .post('/eos/:factoryId/', IdGuardMiddlewareGuard('factoryId'))
-    .post('/eos/:factoryId/', SneakerController.createSneakerClaimAccount)
+    .post('/factory/:factoryId/', IdGuardMiddlewareGuard('factoryId'))
+    .post('/factory/:factoryId/', SneakerController.issueSneaker)
     // .post('/', SneakerController.handleIssueEvent)
     // .patch('/ownership', SneakerController.handleTransferEvent)
     // .put('/testpush', SneakerController.testPusher)

@@ -88,6 +88,7 @@ const register = async (req, res) => {
             role,
             brand,
             publicKey,
+            eosName,
             encryptedPrivateKey,
             passwordHash: hash,
             ...(role === 'collector' ? {
@@ -129,10 +130,6 @@ const register = async (req, res) => {
     await newUser.update({
         isBlockchainSynced: true,
     })
-
-    newUser.update({
-        eosName,
-    }).then();
     res.status(201).json({
         id: newUser.id,
     }).send();

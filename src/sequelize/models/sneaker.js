@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         limitedEdition: DataTypes.BOOLEAN,
         releaseDate: DataTypes.DATEONLY,
         size: DataTypes.FLOAT,
+        isBlockchainSynced: DataTypes.BOOLEAN,
     });
 
     Sneaker.associate = (models) => {
