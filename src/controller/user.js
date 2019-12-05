@@ -162,6 +162,7 @@ const updateUserInfo = async (req, res) => {
         username,
         address,
         email,
+        isBlockchainSynced: false,
     });
     if (updatedUser) {
         return res.status(204).send();
