@@ -88,6 +88,7 @@ const register = async (req, res) => {
             role,
             brand,
             publicKey,
+            eosName,
             encryptedPrivateKey,
             passwordHash: hash,
             ...(role === 'collector' ? {
@@ -124,15 +125,11 @@ const register = async (req, res) => {
                 message: 'can not add to multi index',
             });
         }
-        
-        await newUser.update({
-            isBlockchainSynced: true,
-        })
     }
 
-    newUser.update({
-        eosName,
-    }).then();
+    await newUser.update({
+        isBlockchainSynced: true,
+    })
     res.status(201).json({
         id: newUser.id,
     }).send();

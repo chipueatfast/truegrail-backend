@@ -3,16 +3,13 @@
     [
       "@babel/plugin-proposal-class-properties",
       {
-        "loose": true,
-      },
+        "loose": true
+      }
     ],
     [
       "babel-plugin-root-import", {
         "rootPathSuffix": "src/"
       }
     ]
-  ],
-  "presets": [
-    "@babel/preset-env"
   ]
 }
