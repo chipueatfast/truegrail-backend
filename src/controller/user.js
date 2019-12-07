@@ -232,7 +232,7 @@ const getCollectorById = async (req, res) => {
     const {
         userId,
     } = req.params;
-    const collector = await sequelize().User.findOne({
+    const collector = await sequelize.User.findOne({
         where: {
             id: userId,
             role: 'collector',

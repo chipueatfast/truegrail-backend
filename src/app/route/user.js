@@ -6,14 +6,14 @@ const userRouter = Router();
 
 userRouter
     .get('/duplicate/', UserController.getIsUserIdExisting)
-    .get('/collector/:userId/', UserController.getCollectorById)
     .post('/signin/', UserController.signIn)
     .post('/', UserController.register)
     .get('/', UserController.retrievePublicInfo)
     .get('/ownership/:address/', UserController.getSneakerCollection)
     .patch('/restoration/:networkAddress/', UserController.restoreAccountByNetworkAddress)
     
-    .use('/collector/:userId', OauthMiddlewareGuard)
+    .get('/collector/:userId/', UserController.getCollectorById)
+    .patch('/collector/:userId', OauthMiddlewareGuard)
     .patch('/collector/:userId/', IdGuardMiddlewareGuard('userId'))
     .patch('/collector/:userId/', UserController.updateUserInfo);
 
