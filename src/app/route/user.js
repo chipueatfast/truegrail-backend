@@ -6,6 +6,7 @@ const userRouter = Router();
 
 userRouter
     .get('/duplicate/', UserController.getIsUserIdExisting)
+    .get('/collector/:userId/', UserController.getCollectorById)
     .post('/signin/', UserController.signIn)
     .post('/', UserController.register)
     .get('/', UserController.retrievePublicInfo)

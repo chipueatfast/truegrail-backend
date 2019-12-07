@@ -228,6 +228,25 @@ const signIn = async (req, res) => {
         })
 }
 
+const getCollectorById = async (req, res) => {
+    const {
+        userId,
+    } = req.params;
+    const collector = await sequelize().User.findOne({
+        where: {
+            id: userId,
+            role: 'collector',
+        },
+    });
+    if (!collector) {
+        return res.status(404).send();
+    }
+
+    return res.send({
+        collector,
+    });
+}
+
 export default {
     signIn,
     register,
@@ -236,4 +255,5 @@ export default {
     getSneakerCollection,
     updateUserInfo,
     getIsUserIdExisting,
+    getCollectorById,
 }
