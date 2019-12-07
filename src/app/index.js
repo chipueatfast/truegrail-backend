@@ -5,7 +5,6 @@ import { UserRoute, FactoryRoute, ContractRoute, SneakerRoute } from './route/in
 import { CORSPolicyGuard } from '~/middleware/index';
 import { watchEosBlockchain } from'~/demux/index';
 
-
 const app = Express();
 const port = process.env.PORT;
 watchEosBlockchain();

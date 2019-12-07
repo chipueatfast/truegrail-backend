@@ -5,8 +5,8 @@ import { OauthMiddlewareGuard, IdGuardMiddlewareGuard } from '~/middleware/index
 const sneakerRouter = Router();
 
 sneakerRouter
-    .get('/:id/', SneakerController.getSneaker)
-    .use('/eos/', OauthMiddlewareGuard)
+    .get('/:id/', SneakerController.getSneakerById)
+    .use('/factory/', OauthMiddlewareGuard)
     .post('/factory/:factoryId/', IdGuardMiddlewareGuard('factoryId'))
     .post('/factory/:factoryId/', SneakerController.issueSneaker)
     // .post('/', SneakerController.handleIssueEvent)

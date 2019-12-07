@@ -116,56 +116,30 @@ const issueSneaker = async (req, res) => {
     return res.status(201).send();
 }
 
-// const addSneaker = async (req, res) => async (resolve, returnedValues) => {
-//     try {
-//         const newSneaker = await DatabaseService.createSingleRowAsync('Sneaker', req.body);
-        
-//         if (newSneaker) {
-//             resolve(201);
-//         }
-//     } catch (err) {
-//         throw new Error(err);
-//     }
-// };
-
-const getSneaker = async (req, res) => {
+const getSneakerById = async (req, res) => {
     const sneaker = await DatabaseService.getRowBySingleValueAsync('Sneaker', 'id', req.params.id);
+    
     if (sneaker) {
         const filteredSneaker = {
+            id: sneaker.id,
+            factoryId: sneaker.factoryId,
             brand: sneaker.brand,
             model: sneaker.model,
-            colorway: sneaker.colorway,
-            id: sneaker.id,
-            condition: sneaker.condition,
-            releaseDate: sneaker.releaseDate,
-            limitedEdition: sneaker.limitedEdition,
             size: sneaker.size,
-            ownerAddress: sneaker.ownerAddress,
+            colorway: sneaker.colorway,
+            limitedEdition: sneaker.limitedEdition,
+            releaseDate: sneaker.releaseDate,
         };
 
-        // get owner infomation 
-        let owner;
-        if (filteredSneaker.condition === 'issued') {
-            const factory = await DatabaseService.getRowBySingleValueAsync('Factory', 'blockchainAddress', filteredSneaker.ownerAddress);
-            if (factory) {
-                owner = {
-                    brand: factory.brand,
-                    physicalAddress: factory.physicalAddress,
-                    blockchainAddress: factory.blockchainAddress,
-                }
-            }
 
-            const user = await DatabaseService.getRowBySingleValueAsync('User', 'networkAddress', filteredSneaker.ownerAddress);
-            if (user) {
-                owner = {
-                    name: user.firstName + user.lastName,
-                }
-            }
+        const factory = await DatabaseService.getRowBySingleValueAsync('User', 'id', filteredSneaker.factoryId);
+        if (!factory) {
+            return res.status(500).send();
         }
         
         res.send({
             detail: filteredSneaker,
-            owner,
+            factory,
         });
 
         return;
@@ -173,30 +147,7 @@ const getSneaker = async (req, res) => {
     return res.sendStatus(404);
 };
 
-// const handleIssueEvent = async (req, res) => {
-//     const result = await listenToEventOnBlockchain('Issue', {
-//         _tokenId: req.body.id,
-//     }, await addSneaker(req, res));
-//     if (!result) {
-//         return res.send(500);
-//     }
-//     res.sendStatus(result);
-// }
-
-// const handleTransferEvent = async (req, res) => {
-//     const result = await listenToEventOnBlockchain('Transfer', {
-//         _tokenId: req.body.sneakerId,
-//         _to: req.body.newAddress,
-//     }, await changeOwnership(req, res));
-//     if (!result) {
-//         return res.send(500);
-//     }
-//     res.sendStatus(result);
-// }
-
-
-
 export default {
-    getSneaker,
+    getSneakerById,
     issueSneaker,
 };
