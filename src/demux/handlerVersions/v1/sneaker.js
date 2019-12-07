@@ -22,3 +22,17 @@ export const sneakerUpdaters = [
         },
     },
 ];
+
+export const sneakerEffects = [
+    {
+        actionType: ISSUE_SNEAKER,
+        run: (payload) => {            
+            const {
+                data: {
+                    sneaker_id,
+                },
+            } = payload;
+            console.log('the issuation of sneaker with id of ', sneaker_id);
+        },
+    },
+];

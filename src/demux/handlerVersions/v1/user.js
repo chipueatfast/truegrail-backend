@@ -46,6 +46,27 @@ export const userUpdaters = [
 ];
 
 export const userEffects = [
-
+    {
+        actionType: INSERT_FACTORY,
+        run: async (payload) => {
+            const {
+                data: {
+                    user_id,
+                },
+            } = payload;
+            console.log('insert user id with the id of ', user_id)
+        },
+    },
+    {
+        actionType: UPDATE_USER_INFO,
+        run: async (payload) => {
+            const {
+                data: {
+                    user_id,
+                },
+            } = payload;
+            console.log('Update info with the id of ', user_id)
+        },
+    },
 ]
 

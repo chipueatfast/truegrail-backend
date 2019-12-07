@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Sneaker.associate = (models) => {
-        Sneaker.belongsTo(models.user, {as: 'owner'});
+        Sneaker.belongsTo(models.user, {as: 'factory'});
     };
     return Sneaker;
 };

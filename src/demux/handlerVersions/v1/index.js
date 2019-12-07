@@ -1,5 +1,8 @@
 import { userEffects, userUpdaters } from './user';
-import { sneakerUpdaters } from './sneaker';
+import { 
+    sneakerUpdaters, 
+    sneakerEffects,
+} from './sneaker';
 
 
 
@@ -10,6 +13,7 @@ const updaters = [
 
 const effects = [
     ...userEffects,
+    ...sneakerEffects,
 ]
 
 const handlerVersion = {
