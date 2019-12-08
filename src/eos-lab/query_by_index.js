@@ -13,6 +13,19 @@ const api = new Api({
     textDecoder,
 });
 
+export async function getSingleRowBaseOnSecondIndex(index) {
+    console.log(await rpc.get_table_rows({
+        json: true,                 // Get the response as json
+        code: 'truegrail2',           // Contract that we target
+        scope: 'truegrail2',          // Account that owns the data
+        table: 'sneakers',          // Table name
+        table_key: 'ownerId',
+        lower_bound: index,     // Table primary key value
+        reverse: false,             // Optional: Get reversed data
+        show_payer: false,          // Optional: Show ram payer
+    }));
+}
+
 
 export async function getSingleRowBaseOnIndex(index) {
     console.log(await rpc.get_table_rows({

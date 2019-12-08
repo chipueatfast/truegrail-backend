@@ -9,6 +9,10 @@ sneakerRouter
     .use('/factory/', OauthMiddlewareGuard)
     .post('/factory/:factoryId/', IdGuardMiddlewareGuard('factoryId'))
     .post('/factory/:factoryId/', SneakerController.issueSneaker)
+
+    .use('/collection/', OauthMiddlewareGuard)
+    .post('/collection/:userId/', IdGuardMiddlewareGuard('userId'))
+    .post('/collection/:userId/', SneakerController.fetchCollection)
     // .post('/', SneakerController.handleIssueEvent)
     // .patch('/ownership', SneakerController.handleTransferEvent)
     // .put('/testpush', SneakerController.testPusher)

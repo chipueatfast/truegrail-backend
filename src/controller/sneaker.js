@@ -1,6 +1,8 @@
 import DatabaseService from '~/service/database';
 // import { listenToEventOnBlockchain } from '~/service/blockchain';
+import { Op } from 'sequelize';
 import { createNewEosAccount } from '~/service/eos';
+import { sequelize } from '~/sequelize/models/index';
 // import { sendFCM } from '~/service/fcm';
  
 // const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
@@ -147,7 +149,26 @@ const getSneakerById = async (req, res) => {
     return res.sendStatus(404);
 };
 
+const fetchCollection = async (req, res) => {
+    const {
+        sneakerIdList,
+    } = req.body;
+    console.log('fetch collection');
+    
+    const collection = await sequelize.Sneaker.findAll({
+        where: {
+            id: {
+                [Op.in]: sneakerIdList,
+            },
+        },
+    })
+    return res.send({
+        collection,
+    });
+}
+
 export default {
     getSneakerById,
     issueSneaker,
+    fetchCollection,
 };
