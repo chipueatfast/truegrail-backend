@@ -18,7 +18,7 @@ const saveToken = (token, client, user) => {
     const {
         id,
         username,
-        email,
+        userIdentity,
         role,
         address,
         encryptedPrivateKey,
@@ -29,7 +29,7 @@ const saveToken = (token, client, user) => {
     token.accessToken = jwt.sign({
         user: {
             id,
-            email,
+            userIdentity,
             role,
         },
         accessTokenExpiresAt,
@@ -37,7 +37,7 @@ const saveToken = (token, client, user) => {
     token.client = client;
     token.user = {
         id,
-        email,
+        userIdentity,
         username,
         publicKey,
         role,
