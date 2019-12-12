@@ -4,6 +4,10 @@ import { initSequelize } from '~/sequelize/models/index';
 import { UserRoute, FactoryRoute, ContractRoute, SneakerRoute } from './route/index';
 import { CORSPolicyGuard } from '~/middleware/index';
 import { watchEosBlockchain } from'~/demux/index';
+import { getSingleRowBaseOnIndex, getSingleRowBaseOnSecondIndex } from '~/eos-lab/query_by_index';
+
+// getSingleRowBaseOnIndex(102);
+getSingleRowBaseOnSecondIndex(94);
 
 const app = Express();
 const port = process.env.PORT;

@@ -5,10 +5,17 @@ import { IdGuardMiddlewareGuard, OauthMiddlewareGuard } from '~/middleware/index
 const userRouter = Router();
 
 userRouter
+    .patch('/password/:userId/', OauthMiddlewareGuard)
+    .patch('/password/:userId/', IdGuardMiddlewareGuard('userId'))
+    .patch('/password/:userId/', UserController.changePassword)
+    .get('/password/default/:userId/', OauthMiddlewareGuard)
+    .get('/password/default/:userId/', IdGuardMiddlewareGuard('userId'))
+    .get('/password/default/:userId/', UserController.isUsingDefaultPassword)
     .get('/duplicate/', UserController.getIsUserIdExisting)
     .post('/signin/', UserController.signIn)
     .post('/', UserController.register)
     .get('/', UserController.retrievePublicInfo)
+    .get('/eos/:eosName/', UserController.getPublicInfoByEosName)
     .get('/ownership/:address/', UserController.getSneakerCollection)
     .patch('/restoration/:networkAddress/', UserController.restoreAccountByNetworkAddress)
     

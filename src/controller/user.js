@@ -1,4 +1,5 @@
 import {Request, Response} from "oauth2-server";
+import bcrypt from 'bcrypt';
 import { sequelize } from '~/sequelize/models';
 import { generatePasswordHash } from '~/service/encryption';
 import DatabaseService from '~/service/database';
@@ -22,6 +23,36 @@ const getIsUserIdExisting = async (req, res) => {
     });
 }
 
+const changePassword = async (req, res) => {
+    const {
+        userId,
+    } = req.params;
+
+    const {
+        password,
+    } = req.body;
+
+    if (!password) {
+        return res.status(400).send({
+            message: 'EMPTY_PASSWORD',
+        })
+    }
+
+    const changedUser = await sequelize.User.update({
+        passwordHash: generatePasswordHash(password),
+    },{
+        where: {
+            id: userId,
+        },
+    })
+
+    if (changedUser) {
+        return res.status(204).send();
+    }
+
+    res.status(500).send();
+}
+
 async function addCollectorToEosTableUser({
     id,
     eosName,
@@ -40,6 +71,21 @@ async function addCollectorToEosTableUser({
         return false;
     }
     return true;
+}
+
+const isUsingDefaultPassword = async (req, res) => {
+    const {
+        userId,
+    } =  req.params;
+    const existing = await sequelize.User.findOne({
+        where: {
+            id: userId,
+        },
+    });
+
+    return res.send({
+        isUsingDefault: bcrypt.compareSync('1', existing.passwordHash),
+    })
 }
 
 const register = async (req, res) => {
@@ -171,6 +217,38 @@ const retrievePublicInfo = (req, res) => {
     res.send('please work');
 };
 
+const getPublicInfoByEosName = async (req, res) => {
+    const {
+        eosName,
+    } = req.params;
+    const user = await sequelize.User.findOne({
+        where: {
+            eosName,
+        },
+    });
+    if (!user) {
+        return res.status(400).send({
+            message: 'NOT_AVAILABLE',
+        })
+    }
+    const {
+        userIdentity,
+        role,
+        address,
+        publicKey,
+        brand,
+    } = user;
+    res.send({
+        user: {        
+            userIdentity,
+            role,
+            address,
+            publicKey,
+            brand,
+        },
+    })
+}
+
 
 // please apply knex if you have time
 const restoreAccountByNetworkAddress = async (req, res) => {
@@ -251,9 +329,12 @@ export default {
     signIn,
     register,
     retrievePublicInfo,
+    getPublicInfoByEosName,
     restoreAccountByNetworkAddress,
     getSneakerCollection,
     updateUserInfo,
     getIsUserIdExisting,
     getCollectorById,
+    isUsingDefaultPassword,
+    changePassword,
 }

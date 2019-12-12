@@ -19,8 +19,9 @@ export async function getSingleRowBaseOnSecondIndex(index) {
         code: 'truegrail2',           // Contract that we target
         scope: 'truegrail2',          // Account that owns the data
         table: 'sneakers',          // Table name
-        table_key: 'ownerId',
-        lower_bound: index,     // Table primary key value
+        table_key: 2,
+        lower_bound: index,         // Table primary key value
+        upper_bound: index,
         reverse: false,             // Optional: Get reversed data
         show_payer: false,          // Optional: Show ram payer
     }));
