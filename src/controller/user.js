@@ -232,20 +232,10 @@ const getPublicInfoByEosName = async (req, res) => {
         })
     }
     const {
-        userIdentity,
-        role,
-        address,
-        publicKey,
-        brand,
+        username,
     } = user;
     res.send({
-        user: {        
-            userIdentity,
-            role,
-            address,
-            publicKey,
-            brand,
-        },
+        username,
     })
 }
 
