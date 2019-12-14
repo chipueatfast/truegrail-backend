@@ -11,6 +11,14 @@ export function saveRefreshToken(userId, refreshToken) {
     )
 }
 
+export function getPasswordHashById(id) {
+    return sequelize.User.find({
+        where: {
+            id,
+        },
+    }).then(user => user ? user.passwordHash : null);
+}
+
 export function getPasswordHash(userIdentity) {
     return sequelize.User.find({
         where: {

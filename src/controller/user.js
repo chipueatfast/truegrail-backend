@@ -5,6 +5,7 @@ import { generatePasswordHash } from '~/service/encryption';
 import DatabaseService from '~/service/database';
 import oauth from '~/service/oauth/index';
 import { createNewEosAccount, executeSmartContractMethod } from '~/service/eos';
+import { getPasswordHashById } from "~/service/authentication";
 
 
 const getIsUserIdExisting = async (req, res) => {
@@ -29,17 +30,35 @@ const changePassword = async (req, res) => {
     } = req.params;
 
     const {
-        password,
+        oldPassword,
+        newPassword,
+        newEncryptedPrivateKey,
     } = req.body;
 
-    if (!password) {
+    if (!newEncryptedPrivateKey) {
+        return res.status(400).send({
+            message: 'OLD_PRIVATE_KEY',
+        })
+    }
+
+    if (!oldPassword || !newPassword) {
         return res.status(400).send({
             message: 'EMPTY_PASSWORD',
         })
     }
 
+    const oldPasswordHashFromDb = await getPasswordHashById(userId);
+
+    if (!bcrypt.compareSync(oldPassword, oldPasswordHashFromDb)) {
+        return res.status(400).send({
+            message: 'WRONG_PASSWORD',
+        });
+    };
+
+
     const changedUser = await sequelize.User.update({
-        passwordHash: generatePasswordHash(password),
+        passwordHash: generatePasswordHash(newPassword),
+        encryptedPrivateKey: newEncryptedPrivateKey,
     },{
         where: {
             id: userId,
@@ -50,7 +69,7 @@ const changePassword = async (req, res) => {
         return res.status(204).send();
     }
 
-    res.status(500).send();
+    return res.status(500).send();
 }
 
 async function addCollectorToEosTableUser({
