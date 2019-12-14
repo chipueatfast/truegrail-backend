@@ -232,9 +232,11 @@ const getPublicInfoByEosName = async (req, res) => {
         })
     }
     const {
+        id,
         username,
     } = user;
     res.send({
+        id,
         username,
     })
 }
