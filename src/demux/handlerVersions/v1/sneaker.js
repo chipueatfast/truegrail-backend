@@ -43,7 +43,7 @@ export const sneakerUpdaters = [
             sendFCM(buyerUser.fcmToken, {
                 title: 'New asset added to your collection',
                 body: `Check out your new ${mentionedSneaker.model}(size ${mentionedSneaker.size})`,
-            });
+            }, mentionedSneaker);
         },
     },
 ];
