@@ -186,7 +186,7 @@ const notifySneaker = async (req, res) => {
     sendFCM(buyerUser.fcmToken, {
         title: 'New asset added to your collection',
         body: `Check out your new ${mentionedSneaker.model}(size ${mentionedSneaker.size})`,
-    }, JSON.stringify(mentionedSneaker));
+    }, mentionedSneaker);
     return res.status(204).send();
 }
 
