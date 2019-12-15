@@ -6,11 +6,11 @@ admin.initializeApp({
     databaseURL: 'https://sneaker-checker.firebaseio.com',
 });
 
-export const sendFCM = (token, notification, data) => {
+export const sendFCM = (token, notification, payload) => {
     admin.messaging().send({
-        notification,
         data: {
-            payload: JSON.stringify(data),
+            notification,
+            payload: JSON.stringify(payload),
         },
         token,
     })
