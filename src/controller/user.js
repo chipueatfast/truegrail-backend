@@ -260,6 +260,32 @@ const getPublicInfoByEosName = async (req, res) => {
     })
 }
 
+const getPublicInfoByUserIdentity = async (req, res) => {
+    const {
+        userIdentity,
+    } = req.params;
+    const user = await sequelize.User.findOne({
+        where: {
+            userIdentity,
+        },
+    });
+    if (!user) {
+        return res.status(400).send({
+            message: 'NOT_AVAILABLE',
+        })
+    }
+    const {
+        id,
+        username,
+        avatar,
+    } = user;
+    res.send({
+        id,
+        username,
+        avatar,
+    })
+}
+
 
 // please apply knex if you have time
 const restoreAccountByNetworkAddress = async (req, res) => {
@@ -360,6 +386,7 @@ export default {
     register,
     retrievePublicInfo,
     getPublicInfoByEosName,
+    getPublicInfoByUserIdentity,
     restoreAccountByNetworkAddress,
     getSneakerCollection,
     updateUserInfo,

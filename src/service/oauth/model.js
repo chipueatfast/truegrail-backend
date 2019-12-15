@@ -14,6 +14,7 @@ const saveToken = (token, client, user) => {
         refreshToken,
         accessTokenExpiresAt,
     } = token;
+    const defaultAvatarURL = '';
     saveRefreshToken(user.id, refreshToken);
     const {
         id,
@@ -25,6 +26,7 @@ const saveToken = (token, client, user) => {
         eosName,
         brand,
         publicKey,
+        avatar,
     } = user;
     token.accessToken = jwt.sign({
         user: {
@@ -44,6 +46,7 @@ const saveToken = (token, client, user) => {
         address,
         encryptedPrivateKey,
         eosName,
+        avatar: avatar || defaultAvatarURL,
         ...(brand ? {brand} : null),
     };
 

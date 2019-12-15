@@ -16,6 +16,7 @@ userRouter
     .post('/', UserController.register)
     .get('/', UserController.retrievePublicInfo)
     .get('/eos/:eosName/', UserController.getPublicInfoByEosName)
+    .get('/userIdentity/:userIdentity/', UserController.getPublicInfoByUserIdentity)
     .get('/ownership/:address/', UserController.getSneakerCollection)
     .patch('/restoration/:networkAddress/', UserController.restoreAccountByNetworkAddress)
     
