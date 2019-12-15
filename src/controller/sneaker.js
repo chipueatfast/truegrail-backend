@@ -174,10 +174,14 @@ const notifySneaker = async (req, res) => {
         new_owner_id,
     } = req.body;
     const buyerUser = await sequelize.User.findOne({
-        id: new_owner_id,
+        where: {
+            id: new_owner_id,
+        },
     });
     const mentionedSneaker = await sequelize.Sneaker.findOne({
-        id: sneaker_id,
+        where: {
+            id: sneaker_id,
+        },
     });
     sendFCM(buyerUser.fcmToken, {
         title: 'New asset added to your collection',
