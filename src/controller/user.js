@@ -282,6 +282,7 @@ const getPublicInfoByUserIdentity = async (req, res) => {
     res.send({
         id,
         username,
+        userIdentity,
         avatar,
     })
 }
