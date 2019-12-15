@@ -1,7 +1,13 @@
 import Express from 'express';
 import bodyParser from 'body-parser';
 import { initSequelize } from '~/sequelize/models/index';
-import { UserRoute, FactoryRoute, ContractRoute, SneakerRoute } from './route/index';
+import { 
+    UserRoute, 
+    FactoryRoute, 
+    ContractRoute, 
+    SneakerRoute,
+    PaymentRoute,
+} from './route/index';
 import { CORSPolicyGuard } from '~/middleware/index';
 import { watchEosBlockchain } from'~/demux/index';
 
@@ -18,6 +24,7 @@ app.use('/user', UserRoute);
 app.use('/factory', FactoryRoute);
 app.use('/contract', ContractRoute);
 app.use('/sneaker', SneakerRoute);
+app.use('/payment', PaymentRoute);
 
 
 initSequelize();
