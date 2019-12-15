@@ -3,6 +3,7 @@ import DatabaseService from '~/service/database';
 import { Op } from 'sequelize';
 import { createNewEosAccount } from '~/service/eos';
 import { sequelize } from '~/sequelize/models/index';
+import { sendFCM } from '~/service/fcm';
 // import { sendFCM } from '~/service/fcm';
  
 // const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
@@ -167,8 +168,27 @@ const fetchCollection = async (req, res) => {
     });
 }
 
+const notifySneaker = async (req, res) => {
+    const {
+        sneaker_id,
+        new_owner_id,
+    } = req.body;
+    const buyerUser = await sequelize.User.findOne({
+        id: new_owner_id,
+    });
+    const mentionedSneaker = await sequelize.Sneaker.findOne({
+        id: sneaker_id,
+    });
+    sendFCM(buyerUser.fcmToken, {
+        title: 'New asset added to your collection',
+        body: `Check out your new ${mentionedSneaker.model}(size ${mentionedSneaker.size})`,
+    }, mentionedSneaker);
+    return res.status(204).send();
+}
+
 export default {
     getSneakerById,
     issueSneaker,
     fetchCollection,
+    notifySneaker,
 };

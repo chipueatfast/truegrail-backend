@@ -13,6 +13,9 @@ sneakerRouter
     .use('/collection/', OauthMiddlewareGuard)
     .post('/collection/:userId/', IdGuardMiddlewareGuard('userId'))
     .post('/collection/:userId/', SneakerController.fetchCollection)
+
+    .use('/fcm/notification/', OauthMiddlewareGuard)
+    .post('/fcm/notification/', SneakerController.notifySneaker)
     // .post('/', SneakerController.handleIssueEvent)
     // .patch('/ownership', SneakerController.handleTransferEvent)
     // .put('/testpush', SneakerController.testPusher)
