@@ -9,7 +9,8 @@ admin.initializeApp({
 export const sendFCM = (token, notification, payload) => {
     admin.messaging().send({
         data: {
-            notification,
+            title: notification.title,
+            body: notification.body,
             payload: JSON.stringify(payload),
         },
         token,
