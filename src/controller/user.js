@@ -306,10 +306,29 @@ const getSneakerCollection = async (req, res) => {
 }
 
 const signIn = async (req, res) => {
+    const {
+        // only in mobile
+        fcmToken,
+    } = req.body;
     const request = new Request(req);
     const response = new Response(res);
     return oauth.token(request, response)
-        .then(function (token) {
+        .then(async function (token) {
+            const {
+                user: {
+                    id,
+                },
+            } = token;
+
+            await sequelize.User.update({
+                fcmToken,
+            },{
+                where: {
+                    id,
+                },
+            });
+
+
             res.json(token);
         })
         .catch(function (err) {

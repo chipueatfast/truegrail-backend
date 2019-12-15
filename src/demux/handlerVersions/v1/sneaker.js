@@ -1,7 +1,10 @@
 import { sequelize } from "~/sequelize/models/index";
 import { getSmartContract } from '~/util/environment';
+import { sendFCM } from "~/service/fcm";
+import { execSync } from "child_process";
 
 const ISSUE_SNEAKER = `${getSmartContract()}::issue`;
+const TRANSFER_SNEAKER =`${getSmartContract()}::transfer`;
 
 export const sneakerUpdaters = [
     {
@@ -18,6 +21,28 @@ export const sneakerUpdaters = [
                 where: {
                     id: sneaker_id,
                 },
+            });
+        },
+    },
+    {
+        actionType: TRANSFER_SNEAKER,
+        apply: async (state, payload) => {
+            const {
+                data: {
+                    sneaker_id,
+                    new_owner_id,
+                },
+            } = payload;
+            execSync(`echo 'file log ${TRANSFER_SNEAKER}, sneaker_id: ${sneaker_id}, new_owner_id: ${new_owner_id}' >> ./demux_log.txt`)
+            const buyerUser = await sequelize.User.findOne({
+                id: new_owner_id,
+            });
+            const mentionedSneaker = await sequelize.Sneaker.findOne({
+                id: sneaker_id,
+            });
+            sendFCM(buyerUser.fcmToken, {
+                title: 'New asset added to your collection',
+                body: `Check out your new ${mentionedSneaker.model}(size ${mentionedSneaker.size})`,
             });
         },
     },

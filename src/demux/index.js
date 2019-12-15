@@ -19,6 +19,6 @@ export function watchEosBlockchain() {
     const actionWatcher = new BaseActionWatcher(
         actionReader,
         actionHandler,
-        250);
+        100);
     actionWatcher.watch();
 }

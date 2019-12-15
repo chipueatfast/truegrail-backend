@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         // this is for the user with role factory only
         brand: DataTypes.STRING,
         refreshToken: DataTypes.STRING,
-        registrationToken: DataTypes.STRING,
+        fcmToken: DataTypes.STRING,
     }, {});
 
     User.prototype.serialize = function () {
