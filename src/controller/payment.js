@@ -2,14 +2,6 @@ import gateway from '~/service/braintree/index';
 import { promisify } from 'util';
 
 const getClientToken = async (req, res) => {
-    // const {
-    //     customerId,
-    // } = req.params;
-    // console.log(gateway);
-    // const promisifiedTokenGenerate = promisify(gateway.clientToken.generate);
-    // const token = await promisifiedTokenGenerate({
-    //     customerId,
-    // });
     gateway.clientToken.generate({}, function (err, response) {
         const clientToken = response.clientToken;
         return res.send({
