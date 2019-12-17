@@ -46,6 +46,9 @@ module.exports = (sequelize, DataTypes) => {
         brand: DataTypes.STRING,
         refreshToken: DataTypes.STRING,
         fcmToken: DataTypes.STRING,
+        haveCard: DataTypes.BOOLEAN,
+        gender: DataTypes.ENUM('MALE', 'FEMALE'),
+        dob: DataTypes.DATE,
     }, {});
 
     User.prototype.serialize = function () {

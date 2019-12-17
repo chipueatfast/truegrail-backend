@@ -24,32 +24,32 @@ export const sneakerUpdaters = [
             });
         },
     },
-    {
-        actionType: TRANSFER_SNEAKER,
-        apply: async (state, payload) => {
-            const {
-                data: {
-                    sneaker_id,
-                    new_owner_id,
-                },
-            } = payload;
-            execSync(`echo 'file log ${TRANSFER_SNEAKER}, sneaker_id: ${sneaker_id}, new_owner_id: ${new_owner_id}' >> ./demux_log.txt`)
-            const buyerUser = await sequelize.User.findOne({
-                where: {
-                    id: new_owner_id,
-                },
-            });
-            const mentionedSneaker = await sequelize.Sneaker.findOne({
-                where: {
-                    id: sneaker_id,
-                },
-            });
-            sendFCM(buyerUser.fcmToken, {
-                title: 'New asset added to your collection',
-                body: `Check out your new ${mentionedSneaker.model}(size ${mentionedSneaker.size})`,
-            }, mentionedSneaker);
-        },
-    },
+    // {
+    //     actionType: TRANSFER_SNEAKER,
+    //     apply: async (state, payload) => {
+    //         const {
+    //             data: {
+    //                 sneaker_id,
+    //                 new_owner_id,
+    //             },
+    //         } = payload;
+    //         execSync(`echo 'file log ${TRANSFER_SNEAKER}, sneaker_id: ${sneaker_id}, new_owner_id: ${new_owner_id}' >> ./demux_log.txt`)
+    //         const buyerUser = await sequelize.User.findOne({
+    //             where: {
+    //                 id: new_owner_id,
+    //             },
+    //         });
+    //         const mentionedSneaker = await sequelize.Sneaker.findOne({
+    //             where: {
+    //                 id: sneaker_id,
+    //             },
+    //         });
+    //         sendFCM(buyerUser.fcmToken, {
+    //             title: 'New asset added to your collection',
+    //             body: `Check out your new ${mentionedSneaker.model}(size ${mentionedSneaker.size})`,
+    //         }, mentionedSneaker);
+    //     },
+    // },
 ];
 
 export const sneakerEffects = [
