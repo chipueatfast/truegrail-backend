@@ -6,8 +6,8 @@ const paymentRouter = new Router();
 
 paymentRouter
     .use('/', OauthMiddlewareGuard)
-    .get('/token/:customerId/', PaymentController.getClientToken)
-    .post('/transaction/', PaymentController.createTransaction)
+    .get('/token/:userId/', PaymentController.getClientToken)
+    .post('/transaction/:userId/', PaymentController.createTransaction)
 
 export default paymentRouter;
 

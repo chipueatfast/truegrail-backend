@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         brand: DataTypes.STRING,
         refreshToken: DataTypes.STRING,
         fcmToken: DataTypes.STRING,
-        haveCard: DataTypes.BOOLEAN,
+        customerId: DataTypes.INTEGER,
         gender: DataTypes.ENUM('MALE', 'FEMALE'),
         dob: DataTypes.DATE,
     }, {});

@@ -3,17 +3,25 @@ import { sequelize } from '~/sequelize/models/index';
 
 const getClientToken = async (req, res) => {
     const {
-        customerId,
+        userId,
     } = req.params;
 
-    const customer = await sequelize.User.findOne({
+    const user = await sequelize.User.findOne({
         where: {
-            id: customerId,
+            id: userId,
         },
-    })
+    });
+    if (!user) {
+        return res.status(400).send({
+            message: 'NO_USER',
+        })
+    }
+    const {
+        customerId,
+    } = user;
 
     gateway.clientToken.generate({
-        ...(customer.haveCard ? {customerId} : {}),
+        ...(customerId ? {customerId} : {}),
     }, function (err, response) {
         if (err) {
             res.send({
@@ -27,42 +35,66 @@ const getClientToken = async (req, res) => {
     });
 }
 
-const createTransaction = (req, res) => {
+const createTransaction = async (req, res) => {
     const {
-        customerId,
+        userId,
     } = req.params;
     const {
         nonceFromTheClient,
     } = req.body;
 
-    gateway.paymentMethod.create({
-        customerId: customerId.toString(),
-        paymentMethodNonce: nonceFromTheClient,
-    }, function (createErr, createResult) {
-        if (createErr || createResult.errors) {
-            return res.status(400).send({
-                err: createErr || createResult.errors,
-            });
-        }
-        gateway.transaction.sale({
-            amount: "5.00",
+    const user = await sequelize.User.findOne({
+        where: {
+            id: userId,
+        },
+    });
+    const {
+        customerId,
+    } = user;
+    if (!customerId) {
+        gateway.customer.create({
+            firstName: user.username,
+            lastName: 'truegrail',
             paymentMethodNonce: nonceFromTheClient,
-            options: {
-                submitForSettlement: true,
-            },
-        }, function (saleErr, saleResult) {
-            if (saleErr || saleResult.errors) {
-                return res.status(400).send({
-                    err: saleErr || saleResult.errors,
+        }, async function (err, result) {
+            if (!err && result.success) {
+                await user.update({
+                    customerId: result.customer.id,
                 });
             }
-            console.log(saleResult);
-            res.send({
-                saleResult,
-            });
         });
+    }
 
+    gateway.transaction.sale({
+        amount: "5.00",
+        paymentMethodNonce: nonceFromTheClient,
+        options: {
+            submitForSettlement: true,
+        },
+    }, function (saleErr, saleResult) {
+        if (saleErr || saleResult.errors) {
+            return res.status(400).send({
+                err: saleErr || saleResult.errors,
+            });
+        }
+        console.log(saleResult);
+        res.send({
+            saleResult,
+        });
     });
+
+    // gateway.paymentMethod.create({
+    //     customerId: customerId.toString(),
+    //     paymentMethodNonce: nonceFromTheClient,
+    // }, function (createErr, createResult) {
+    //     if (createErr || createResult.errors) {
+    //         return res.status(400).send({
+    //             err: createErr || createResult.errors,
+    //         });
+    //     }
+        
+
+    // });
 }
 
 export default {
