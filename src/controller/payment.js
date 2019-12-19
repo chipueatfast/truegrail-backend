@@ -62,9 +62,10 @@ const createTransaction = async (req, res) => {
                 await user.update({
                     customerId: createResult.customer.id,
                 });
+                const paymentMethodToken = createResult.customer.paymentMethods[0].token;
                 gateway.transaction.sale({
                     amount: "5.00",
-                    paymentMethodNonce: nonceFromTheClient,
+                    paymentMethodToken,
                     customerId: createResult.customer.id,
                     options: {
                         storeInVaultOnSuccess: true,
@@ -73,17 +74,18 @@ const createTransaction = async (req, res) => {
                 }, function (saleErr, saleResult) {
                     if (saleErr || saleResult.errors) {
                         return res.status(400).send({
-                            err: saleErr || saleResult.errors,
+                            err: JSON.stringify(saleResult.errors) || saleErr,
                         });
                     }
                     return res.send({
                         saleResult,
                     });
                 });
+            } else {
+                return res.status(400).send({
+                    err: createErr || createResult.errors,
+                });
             };
-            return res.status(400).send({
-                err: createErr || createResult.errors,
-            })
         });
     } else {
         gateway.transaction.sale({
@@ -100,7 +102,6 @@ const createTransaction = async (req, res) => {
                     err: saleErr || saleResult.errors,
                 });
             }
-            console.log(saleResult);
             return res.send({
                 saleResult,
             });
