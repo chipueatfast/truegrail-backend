@@ -51,50 +51,64 @@ const createTransaction = async (req, res) => {
     const {
         customerId,
     } = user;
+    // for new customer
     if (!customerId) {
         gateway.customer.create({
             firstName: user.username,
             lastName: 'truegrail',
             paymentMethodNonce: nonceFromTheClient,
-        }, async function (err, result) {
-            if (!err && result.success) {
+        }, async function (createErr, createResult) {
+            if (!createErr && createResult.success) {
                 await user.update({
-                    customerId: result.customer.id,
+                    customerId: createResult.customer.id,
+                });
+                gateway.transaction.sale({
+                    amount: "5.00",
+                    paymentMethodNonce: nonceFromTheClient,
+                    customer: {
+                        id: createResult.customer.id,
+                    },
+                    options: {
+                        storeInVaultOnSuccess: true,
+                        submitForSettlement: true,
+                    },
+                }, function (saleErr, saleResult) {
+                    if (saleErr || saleResult.errors) {
+                        return res.status(400).send({
+                            err: saleErr || saleResult.errors,
+                        });
+                    }
+                    console.log(saleResult);
+                    res.send({
+                        saleResult,
+                    });
+                });
+            };
+            res.status(400).send({
+                err: createErr || createResult.errors,
+            })
+        });
+    } else {
+        gateway.transaction.sale({
+            amount: "5.00",
+            paymentMethodNonce: nonceFromTheClient,
+            customerId,
+            options: {
+                storeInVaultOnSuccess: true,
+                submitForSettlement: true,
+            },
+        }, function (saleErr, saleResult) {
+            if (saleErr || saleResult.errors) {
+                return res.status(400).send({
+                    err: saleErr || saleResult.errors,
                 });
             }
-        });
-    }
-
-    gateway.transaction.sale({
-        amount: "5.00",
-        paymentMethodNonce: nonceFromTheClient,
-        options: {
-            submitForSettlement: true,
-        },
-    }, function (saleErr, saleResult) {
-        if (saleErr || saleResult.errors) {
-            return res.status(400).send({
-                err: saleErr || saleResult.errors,
+            console.log(saleResult);
+            res.send({
+                saleResult,
             });
-        }
-        console.log(saleResult);
-        res.send({
-            saleResult,
         });
-    });
-
-    // gateway.paymentMethod.create({
-    //     customerId: customerId.toString(),
-    //     paymentMethodNonce: nonceFromTheClient,
-    // }, function (createErr, createResult) {
-    //     if (createErr || createResult.errors) {
-    //         return res.status(400).send({
-    //             err: createErr || createResult.errors,
-    //         });
-    //     }
-        
-
-    // });
+    };
 }
 
 export default {
