@@ -65,9 +65,7 @@ const createTransaction = async (req, res) => {
                 gateway.transaction.sale({
                     amount: "5.00",
                     paymentMethodNonce: nonceFromTheClient,
-                    customer: {
-                        id: createResult.customer.id,
-                    },
+                    customerId: createResult.customer.id,
                     options: {
                         storeInVaultOnSuccess: true,
                         submitForSettlement: true,
@@ -78,13 +76,12 @@ const createTransaction = async (req, res) => {
                             err: saleErr || saleResult.errors,
                         });
                     }
-                    console.log(saleResult);
-                    res.send({
+                    return res.send({
                         saleResult,
                     });
                 });
             };
-            res.status(400).send({
+            return res.status(400).send({
                 err: createErr || createResult.errors,
             })
         });
@@ -104,7 +101,7 @@ const createTransaction = async (req, res) => {
                 });
             }
             console.log(saleResult);
-            res.send({
+            return res.send({
                 saleResult,
             });
         });

@@ -154,7 +154,6 @@ const fetchCollection = async (req, res) => {
     const {
         sneakerIdList,
     } = req.body;
-    console.log('fetch collection');
     
     const collection = await sequelize.Sneaker.findAll({
         where: {
