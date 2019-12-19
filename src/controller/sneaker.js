@@ -69,6 +69,7 @@ const issueSneaker = async (req, res) => {
         colorway,
         size,
         releaseDate,
+        furtherSpec,
     } = req.body;
 
 
@@ -78,7 +79,8 @@ const issueSneaker = async (req, res) => {
         brand &&
         colorway &&
         size &&
-        releaseDate
+        releaseDate &&
+        furtherSpec
     )) {
         return res.status(400).send({
             message: 'not_fulfilled',
@@ -102,6 +104,7 @@ const issueSneaker = async (req, res) => {
             colorway,
             size,
             releaseDate,
+            furtherSpec,
         }, {
             id,
         }
