@@ -210,6 +210,8 @@ const updateUserInfo = async (req, res) => {
         username,
         address,
         email,
+        dob,
+        gender,
     } = req.body;
     const existing = await sequelize.User.findOne({
         where: {
@@ -224,6 +226,8 @@ const updateUserInfo = async (req, res) => {
         username,
         address,
         email,
+        dob,
+        gender,
         isBlockchainSynced: false,
     });
     if (updatedUser) {
