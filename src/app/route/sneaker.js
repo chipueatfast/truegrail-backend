@@ -7,8 +7,9 @@ const sneakerRouter = Router();
 sneakerRouter
     .get('/:id/', SneakerController.getSneakerById)
     .use('/factory/', OauthMiddlewareGuard)
-    .post('/factory/:factoryId/', IdGuardMiddlewareGuard('factoryId'))
+    .use('/factory/:factoryId/', IdGuardMiddlewareGuard('factoryId'))
     .post('/factory/:factoryId/', SneakerController.issueSneaker)
+    .get('/factory/:factoryId/', SneakerController.getIssuedSneakers)
 
     .use('/collection/', OauthMiddlewareGuard)
     .post('/collection/:userId/', IdGuardMiddlewareGuard('userId'))

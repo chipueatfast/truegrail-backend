@@ -122,6 +122,20 @@ const issueSneaker = async (req, res) => {
     return res.status(201).send();
 }
 
+const getIssuedSneakers = async (req, res) => {
+    const {
+        factoryId, 
+    } = req.params;
+    const sneakers = await sequelize.Sneaker.findAll({
+        where: {
+            factoryId,
+        },
+    });
+    return res.send({
+        sneakers,
+    });
+}
+
 const getSneakerById = async (req, res) => {
     const sneaker = await DatabaseService.getRowBySingleValueAsync('Sneaker', 'id', req.params.id);
     
@@ -131,7 +145,7 @@ const getSneakerById = async (req, res) => {
             factoryId: sneaker.factoryId,
             brand: sneaker.brand,
             model: sneaker.model,
-            size: sneaker.size,
+            size: parseFloat(sneaker.size).toFixed(1),
             colorway: sneaker.colorway,
             limitedEdition: sneaker.limitedEdition,
             releaseDate: sneaker.releaseDate,
@@ -198,4 +212,5 @@ export default {
     issueSneaker,
     fetchCollection,
     notifySneaker,
+    getIssuedSneakers,
 };
