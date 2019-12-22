@@ -145,7 +145,7 @@ const getSneakerById = async (req, res) => {
             factoryId: sneaker.factoryId,
             brand: sneaker.brand,
             model: sneaker.model,
-            size: parseFloat(sneaker.size).toFixed(1),
+            size: sneaker.size,
             colorway: sneaker.colorway,
             limitedEdition: sneaker.limitedEdition,
             releaseDate: sneaker.releaseDate,
