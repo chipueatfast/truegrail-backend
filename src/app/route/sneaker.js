@@ -5,6 +5,7 @@ import { OauthMiddlewareGuard, IdGuardMiddlewareGuard } from '~/middleware/index
 const sneakerRouter = Router();
 
 sneakerRouter
+    .get('/availableTrade/', SneakerController.getAvailableTrade)
     .get('/:id/', SneakerController.getSneakerById)
     .use('/factory/', OauthMiddlewareGuard)
     .use('/factory/:factoryId/', IdGuardMiddlewareGuard('factoryId'))
@@ -15,7 +16,6 @@ sneakerRouter
     .post('/collection/:userId/', IdGuardMiddlewareGuard('userId'))
     .post('/collection/:userId/', SneakerController.fetchCollection)
     .patch('/collection/visibility/:sneakerId/', SneakerController.toggleVisibility)
-    .get('/collection/availableTrade/', SneakerController.getAvailableTrade)
 
     .use('/fcm/notification/', OauthMiddlewareGuard)
     .post('/fcm/notification/', SneakerController.notifySneaker)
