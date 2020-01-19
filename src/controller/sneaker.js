@@ -250,9 +250,13 @@ const getAvailableTrade = async (req, res) => {
         },
     });
 
+    const reformatted = availableTrade.map(el => ({
+        sneakerInfo: el,
+    }))
+
     if (availableTrade) {
         return res.send({
-            availableTrade,
+            availableTrade: reformatted,
         })
     }
 
