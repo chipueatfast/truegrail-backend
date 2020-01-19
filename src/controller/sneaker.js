@@ -2,7 +2,7 @@ import DatabaseService from '~/service/database';
 // import { listenToEventOnBlockchain } from '~/service/blockchain';
 import { Op } from 'sequelize';
 import { createNewEosAccount } from '~/service/eos';
-import { sequelize } from '~/sequelize/models/index';
+import { sequelize, Sequelize } from '~/sequelize/models/index';
 import { sendFCM } from '~/service/fcm';
 // import { sendFCM } from '~/service/fcm';
  
@@ -207,10 +207,64 @@ const notifySneaker = async (req, res) => {
     return res.status(204).send();
 }
 
+// await sequelize.User.update({
+//     fcmToken,
+// },{
+//     where: {
+//         id,
+//     },
+// });
+
+const toggleVisibility = async (req, res) => {
+    const {
+        sneakerId,
+    } = req.params;
+
+    const {
+        isVisible,
+    } = req.body;
+
+    if (!isVisible) {
+        return res.send(400).json({
+            message: 'EMPTY_FIELD',
+        })
+    }
+
+    const rs = await sequelize.Sneaker.update({
+        isVisible,
+    }, {
+        where: {
+            id: sneakerId,
+        },
+    });
+    if (rs && rs[0]) {
+        return res.send(204);
+    }
+    return res.send(500);
+}
+
+const getAvailableTrade = async (req, res) => {
+    const availableTrade = await sequelize.Sneaker.findAll({
+        where: {
+            isVisible: 1,
+        },
+    });
+
+    if (availableTrade) {
+        return res.send({
+            availableTrade,
+        })
+    }
+
+    return res.send(500);
+}
+
 export default {
     getSneakerById,
     issueSneaker,
     fetchCollection,
     notifySneaker,
     getIssuedSneakers,
+    toggleVisibility,
+    getAvailableTrade,
 };

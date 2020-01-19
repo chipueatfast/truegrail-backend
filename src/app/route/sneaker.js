@@ -14,6 +14,8 @@ sneakerRouter
     .use('/collection/', OauthMiddlewareGuard)
     .post('/collection/:userId/', IdGuardMiddlewareGuard('userId'))
     .post('/collection/:userId/', SneakerController.fetchCollection)
+    .patch('/collection/visibility/:sneakerId/', SneakerController.toggleVisibility)
+    .get('/collection/availableTrade/', SneakerController.getAvailableTrade)
 
     .use('/fcm/notification/', OauthMiddlewareGuard)
     .post('/fcm/notification/', SneakerController.notifySneaker)
