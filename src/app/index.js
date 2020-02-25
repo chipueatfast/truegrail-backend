@@ -7,6 +7,7 @@ import {
     ContractRoute, 
     SneakerRoute,
     PaymentRoute,
+    TracingRoute,
 } from './route/index';
 import { CORSPolicyGuard } from '~/middleware/index';
 import { watchEosBlockchain } from'~/demux/index';
@@ -25,6 +26,7 @@ app.use('/factory', FactoryRoute);
 app.use('/contract', ContractRoute);
 app.use('/sneaker', SneakerRoute);
 app.use('/payment', PaymentRoute);
+app.use('/tracing', TracingRoute);
 
 
 initSequelize();

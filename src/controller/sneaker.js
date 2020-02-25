@@ -2,42 +2,8 @@ import DatabaseService from '~/service/database';
 // import { listenToEventOnBlockchain } from '~/service/blockchain';
 import { Op } from 'sequelize';
 import { createNewEosAccount } from '~/service/eos';
-import { sequelize, Sequelize } from '~/sequelize/models/index';
+import { sequelize } from '~/sequelize/models/index';
 import { sendFCM } from '~/service/fcm';
-// import { sendFCM } from '~/service/fcm';
- 
-// const changeOwnership = async (req, res) => async (resolve, returnedValues) => {
-//     const retrieveUser = DatabaseService.getRowBySingleValueAsync('User', 
-//         'networkAddress', 
-//         req.body.newAddress.toLowerCase());
-//     const retrieveSneaker = DatabaseService.getRowBySingleValueAsync('Sneaker', 
-//         'id', 
-//         req.body.sneakerId);
-    
-//     const [user, sneaker] = await Promise.all([retrieveUser, retrieveSneaker]);
-//     if (sneaker) {
-//         try {
-//             const oldOwner = sneaker.email;
-//             sneaker.update({
-//                 ownerAddress: req.body.newAddress,
-//             }).then((newSneaker) => {
-//                 if (user && user.registrationToken) {
-
-//                     sendFCM(user.registrationToken, { 
-//                         title: 'Change of ownership',
-//                         body: `${user.email} is now the owner of ${newSneaker.model} size ${newSneaker.size}US`,  
-//                     });
-//                 }
-//                 resolve(203);
-//             });
-//         } catch {
-//             resolve(500);
-//         }
-//         return;
-//     }
-//     resolve(400);
-// }
-
 
 async function createSneakerClaimAccount({
     claimPublicKey,
