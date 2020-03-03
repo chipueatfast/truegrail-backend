@@ -190,7 +190,7 @@ const toggleVisibility = async (req, res) => {
         isVisible,
     } = req.body;
 
-    if (!isVisible) {
+    if (isVisible !== 0 && isVisible !== 1) {
         return res.send(400).json({
             message: 'EMPTY_FIELD',
         })
