@@ -82,20 +82,24 @@ async function fetchDetailOfTransaction(req, res) {
     let details = [];
     for (const row of rows) {
         const id = row.id;
+        const createdAt = row.created_at;
         if (row.transaction_type === 'issue') {
             details.push({
                 id,
+                createdAt,
                 ... await handleIssueType(row.sneaker_id),
             })
         }
         if (row.transaction_type === 'claim') {
             details.push({
                 id,
+                createdAt,
                 ... await handleClaimType(row.buyer_id),
             })}
         if (row.transaction_type === 'resell') {
             details.push({
                 id,
+                createdAt,
                 ...await handleResellType({
                     buyerId: row.buyer_id,
                     sellerId: row.seller_id,
